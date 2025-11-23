@@ -38,6 +38,7 @@ const pointsDisplay = document.getElementById('pointsDisplay');
 const signalCounter = document.getElementById('signalCounter');
 const titleBanner = document.getElementById('titleBanner');
 const meaningText = document.getElementById('meaningText');
+const meaningTextInline = document.getElementById('meaningTextInline');
 const card = document.getElementById('card');
 const badgeNumber = document.getElementById('badgeNumber');
 const progressDots = document.getElementById('progressDots');
@@ -85,6 +86,15 @@ function addPoints(amount) {
     points += amount;
     updatePointsDisplay();
     showToast(`+${amount} pontos!`, 'success');
+    
+    // Animação de conquista no display de pontos
+    const pointsDisplayElement = document.querySelector('.stat-item-vertical.points-display');
+    if (pointsDisplayElement) {
+        pointsDisplayElement.classList.add('achievement');
+        setTimeout(() => {
+            pointsDisplayElement.classList.remove('achievement');
+        }, 600);
+    }
 }
 
 function updatePointsDisplay() {
@@ -231,7 +241,13 @@ function updateSignalContent(index) {
     }, { once: true });
     
     // Atualiza contexto
-    meaningText.textContent = signal.context;
+    const meaningTextInline = document.getElementById('meaningTextInline');
+    if (meaningTextInline) {
+        meaningTextInline.textContent = signal.context;
+    }
+    if (meaningText) {
+        meaningText.textContent = signal.context;
+    }
     
     // Atualiza progresso
     updateProgress();

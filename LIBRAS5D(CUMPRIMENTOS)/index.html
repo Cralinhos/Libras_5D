@@ -12,8 +12,12 @@
         DOCUMENTAÇÃO: Barra de Progresso Compacta
         - Barra menor e mais discreta
         - Posicionada acima do card principal
+        - Com contexto de módulo
     ============================================ -->
     <div class="compact-progress">
+        <div class="progress-header-compact">
+            <span class="module-label">📚 Módulo 1: Cumprimentos</span>
+        </div>
         <div class="progress-bar-compact">
             <div class="progress-bar-track-compact">
                 <div class="progress-bar-fill-compact" id="progressBarFill"></div>
@@ -71,8 +75,13 @@
 
             <!-- Título do sinal com animação -->
             <div class="signal-title-container">
+                <div class="title-label">Em Português</div>
                 <h1 class="signal-title" id="titleBanner">BOM DIA</h1>
                 <div class="title-underline"></div>
+                <div class="context-inline" id="contextInline">
+                    <span class="context-icon-inline">💬</span>
+                    <span class="context-text-inline" id="meaningTextInline">Usado para cumprimentar alguém pela manhã</span>
+                </div>
             </div>
 
             <!-- Área do vídeo com frame decorativo -->
@@ -104,8 +113,8 @@
                 </div>
             </div>
 
-            <!-- Seção de contexto com design moderno -->
-            <div class="context-section">
+            <!-- Seção de contexto com design moderno (mantida para referência) -->
+            <div class="context-section" style="display: none;">
                 <div class="context-header">
                     <span class="context-icon">💡</span>
                     <h3>Contexto de Uso</h3>
@@ -119,9 +128,10 @@
                     <span class="btn-icon">←</span>
                     <span class="btn-text">Anterior</span>
                 </button>
-                <button class="action-btn next-btn primary" id="nextSignalButton" aria-label="Próximo sinal" title="Próximo (→)">
+                <button class="action-btn next-btn primary" id="nextSignalButton" aria-label="Próximo sinal" title="Próximo (→ ou Enter)">
                     <span class="btn-text">Próximo</span>
                     <span class="btn-icon">→</span>
+                    <span class="btn-shortcut">ENTER</span>
                 </button>
             </div>
         </div>

@@ -53,6 +53,8 @@ body {
     padding: 20px;
     position: relative;
     overflow-x: hidden;
+    zoom: 80%;
+    transform-origin: top center;
 }
 
 /* ============================================
@@ -65,6 +67,22 @@ body {
     max-width: 1200px;
     margin-bottom: 20px;
     z-index: 100;
+}
+
+.progress-header-compact {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.module-label {
+    font-weight: 600;
+    color: var(--color-primary-darker);
+    font-size: 0.95em;
+    background: var(--color-white);
+    padding: 8px 15px;
+    border-radius: 12px;
+    display: inline-block;
+    box-shadow: var(--shadow-sm);
 }
 
 .progress-bar-compact {
@@ -229,6 +247,45 @@ body {
     color: var(--color-white);
 }
 
+/* ============================================
+   DOCUMENTAÇÃO: ANIMAÇÃO DE CONQUISTA
+   - Efeito visual ao completar sinal
+   - Reforça ciclo de recompensa
+   ============================================ */
+@keyframes achievementPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+@keyframes achievementGlow {
+    0%, 100% {
+        box-shadow: var(--shadow-sm);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), var(--shadow-md);
+    }
+}
+
+.stat-item-vertical.points-display.achievement {
+    animation: achievementPulse 0.6s ease-out, achievementGlow 0.6s ease-out;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: ELEMENTOS INTERATIVOS
+   - Usar cor de destaque para clicáveis
+   ============================================ */
+.action-btn:focus,
+.control-btn:focus,
+.menu-toggle:focus,
+.random-mode-button:focus {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
 
 
 /* ============================================
@@ -319,18 +376,55 @@ body {
    ============================================ */
 .signal-title-container {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     margin-top: 10px;
 }
 
+.title-label {
+    font-size: 0.85em;
+    font-weight: 600;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    opacity: 0.8;
+}
+
 .signal-title {
-    font-size: 2.5em;
+    font-size: 3em;
     font-weight: 800;
     color: var(--color-primary-darker);
-    margin-bottom: 10px;
-    letter-spacing: 2px;
+    margin-bottom: 12px;
+    letter-spacing: 3px;
     text-transform: uppercase;
     animation: titlePulse 2s ease-in-out infinite;
+    text-shadow: 0 2px 10px rgba(26, 122, 109, 0.2);
+    line-height: 1.2;
+}
+
+.context-inline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 15px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, rgba(74, 208, 160, 0.1) 0%, rgba(102, 201, 178, 0.1) 100%);
+    border-radius: 12px;
+    border-left: 3px solid var(--color-primary);
+}
+
+.context-icon-inline {
+    font-size: 1.3em;
+    flex-shrink: 0;
+}
+
+.context-text-inline {
+    color: var(--color-text);
+    font-size: 0.95em;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
 }
 
 @keyframes titlePulse {
@@ -371,7 +465,7 @@ body {
     width: 100%;
     min-height: 500px;
     padding: 0;
-    background: var(--color-background);
+    background: linear-gradient(135deg, #d4e8e1 0%, #c4d8d1 100%);
     border-radius: 20px;
     overflow: hidden;
     display: flex;
@@ -526,16 +620,45 @@ body {
 
 .next-btn {
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.next-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.next-btn:hover::before {
+    left: 100%;
 }
 
 .next-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(74, 208, 160, 0.4);
     background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
 }
 
 .next-btn.primary {
-    background: linear-gradient(135deg, var(--color-success) 0%, var(--color-primary) 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    box-shadow: 0 6px 20px rgba(74, 208, 160, 0.3);
+    border: 2px solid var(--color-primary);
+}
+
+.btn-shortcut {
+    font-size: 0.7em;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-left: 8px;
+    letter-spacing: 0.5px;
 }
 
 .btn-icon {
@@ -562,6 +685,7 @@ body {
 .progress-dot {
     width: 12px;
     height: 12px;
+    margin-top: 10px;
     border-radius: 50%;
     background: var(--color-background);
     border: 2px solid var(--color-primary);
