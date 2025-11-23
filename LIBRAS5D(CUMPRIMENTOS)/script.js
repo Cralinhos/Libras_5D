@@ -52,6 +52,20 @@ const sidebarOverlay = document.getElementById('sidebarOverlay');
 const sidebarClose = document.querySelector('.sidebar-close');
 const signalsList = document.getElementById('signalsList');
 const randomModeButton = document.getElementById('randomModeButton');
+const gameModeButton = document.getElementById('gameModeButton');
+
+// Elementos do jogo
+const gameSection = document.getElementById('gameSection');
+const closeGameButton = document.getElementById('closeGameButton');
+const gameVideo = document.getElementById('gameVideo');
+const gameOptions = document.getElementById('gameOptions');
+const gameFeedback = document.getElementById('gameFeedback');
+const feedbackContent = document.getElementById('feedbackContent');
+const nextQuestionButton = document.getElementById('nextQuestionButton');
+const gameProgressFill = document.getElementById('gameProgressFill');
+const gameProgressText = document.getElementById('gameProgressText');
+const gameScoreText = document.getElementById('gameScoreText');
+const gameCard = document.getElementById('gameCard');
 
 // Elementos do modal
 const completionModal = document.getElementById('completionModal');
@@ -74,6 +88,14 @@ let points = 0;
 let completedSignals = new Set(); // Armazena quais sinais foram completados
 let isNavigating = false; // Flag para prevenir múltiplas navegações simultâneas
 let lastKeyPress = {}; // Rastreia última tecla pressionada para prevenir spam
+
+// Variáveis do jogo
+let gameMode = false;
+let currentGameQuestion = 0;
+let gameScore = 0;
+let gameQuestions = []; // Array com ordem das perguntas
+let currentCorrectAnswer = null;
+let gameAnswered = false;
 
 // Velocidades disponíveis para o vídeo
 const playbackRates = [0.5, 0.75, 1, 1.25, 1.5, 2];
@@ -684,6 +706,221 @@ function setupKeyboardShortcuts() {
 }
 
 /* ============================================
+   DOCUMENTAÇÃO: SISTEMA DE JOGO
+   - Gera perguntas com 4 alternativas
+   - Verifica respostas
+   - Controla progresso e pontuação
+   ============================================ */
+function startGame() {
+    gameMode = true;
+    currentGameQuestion = 0;
+    gameScore = 0;
+    gameAnswered = false;
+    
+    // Cria array com todos os sinais em ordem aleatória
+    gameQuestions = [...Array(signals.length).keys()];
+    shuffleArray(gameQuestions);
+    
+    // Esconde a seção principal e mostra o jogo
+    document.querySelector('.game-wrapper').style.display = 'none';
+    document.querySelector('.compact-progress').style.display = 'none';
+    document.querySelector('.progress-dots').style.display = 'none';
+    gameSection.style.display = 'block';
+    
+    // Fecha o menu lateral se estiver aberto
+    closeSidebar();
+    
+    // Carrega a primeira pergunta
+    loadGameQuestion();
+    updateGameScore();
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+function loadGameQuestion() {
+    if (currentGameQuestion >= gameQuestions.length) {
+        endGame();
+        return;
+    }
+    
+    gameAnswered = false;
+    const questionIndex = gameQuestions[currentGameQuestion];
+    const correctSignal = signals[questionIndex];
+    
+    // Define a resposta correta
+    currentCorrectAnswer = questionIndex;
+    
+    // Carrega o vídeo
+    gameVideo.src = correctSignal.video;
+    gameVideo.load();
+    gameVideo.play();
+    
+    // Gera as alternativas
+    generateGameOptions(questionIndex);
+    
+    // Atualiza progresso
+    updateGameProgress();
+    
+    // Esconde feedback e botão de próxima pergunta
+    gameFeedback.style.display = 'none';
+    nextQuestionButton.style.display = 'none';
+    
+    // Habilita os botões de opção
+    const optionButtons = gameOptions.querySelectorAll('.game-option-btn');
+    optionButtons.forEach(btn => {
+        btn.disabled = false;
+        btn.classList.remove('correct', 'incorrect');
+    });
+}
+
+function generateGameOptions(correctIndex) {
+    // Cria array com índices de todos os sinais exceto o correto
+    const otherIndices = signals
+        .map((_, index) => index)
+        .filter(index => index !== correctIndex);
+    
+    // Seleciona 3 aleatórios
+    const wrongOptions = [];
+    while (wrongOptions.length < 3 && otherIndices.length > 0) {
+        const randomIndex = Math.floor(Math.random() * otherIndices.length);
+        wrongOptions.push(otherIndices.splice(randomIndex, 1)[0]);
+    }
+    
+    // Cria array com todas as opções (correta + 3 incorretas)
+    const allOptions = [correctIndex, ...wrongOptions];
+    
+    // Embaralha as opções
+    shuffleArray(allOptions);
+    
+    // Limpa opções anteriores
+    gameOptions.innerHTML = '';
+    
+    // Cria botões para cada opção
+    allOptions.forEach((optionIndex, buttonIndex) => {
+        const signal = signals[optionIndex];
+        const button = document.createElement('button');
+        button.className = 'game-option-btn';
+        button.textContent = signal.title;
+        button.setAttribute('data-index', optionIndex);
+        button.addEventListener('click', () => handleGameAnswer(optionIndex));
+        gameOptions.appendChild(button);
+    });
+}
+
+function handleGameAnswer(selectedIndex) {
+    if (gameAnswered) return;
+    
+    gameAnswered = true;
+    const optionButtons = gameOptions.querySelectorAll('.game-option-btn');
+    const isCorrect = selectedIndex === currentCorrectAnswer;
+    
+    // Desabilita todos os botões
+    optionButtons.forEach(btn => {
+        btn.disabled = true;
+        const btnIndex = parseInt(btn.getAttribute('data-index'));
+        
+        if (btnIndex === currentCorrectAnswer) {
+            btn.classList.add('correct');
+        } else if (btnIndex === selectedIndex && !isCorrect) {
+            btn.classList.add('incorrect');
+        }
+    });
+    
+    // Mostra feedback
+    if (isCorrect) {
+        gameScore += 10;
+        showGameFeedback('✅ Correto! Parabéns!', 'success');
+        addPoints(10);
+    } else {
+        const correctSignal = signals[currentCorrectAnswer];
+        showGameFeedback(`❌ Incorreto! A resposta correta é: ${correctSignal.title}`, 'error');
+    }
+    
+    updateGameScore();
+    
+    // Mostra botão para próxima pergunta
+    if (currentGameQuestion < gameQuestions.length - 1) {
+        nextQuestionButton.style.display = 'block';
+    } else {
+        nextQuestionButton.textContent = 'Ver Resultado Final';
+        nextQuestionButton.style.display = 'block';
+    }
+}
+
+function showGameFeedback(message, type) {
+    feedbackContent.innerHTML = message;
+    feedbackContent.className = `feedback-content ${type}`;
+    gameFeedback.style.display = 'block';
+}
+
+function nextGameQuestion() {
+    currentGameQuestion++;
+    loadGameQuestion();
+}
+
+function updateGameProgress() {
+    const progress = ((currentGameQuestion + 1) / gameQuestions.length) * 100;
+    gameProgressFill.style.width = `${progress}%`;
+    gameProgressText.textContent = `Pergunta ${currentGameQuestion + 1}/${gameQuestions.length}`;
+}
+
+function updateGameScore() {
+    gameScoreText.textContent = `Pontuação: ${gameScore}`;
+}
+
+function endGame() {
+    const percentage = Math.round((gameScore / (gameQuestions.length * 10)) * 100);
+    let message = '';
+    
+    if (percentage === 100) {
+        message = '🎉 Perfeito! Você acertou todas as perguntas!';
+    } else if (percentage >= 80) {
+        message = '👏 Excelente! Você teve um ótimo desempenho!';
+    } else if (percentage >= 60) {
+        message = '👍 Bom trabalho! Continue praticando!';
+    } else {
+        message = '💪 Continue estudando! Você vai melhorar!';
+    }
+    
+    showGameFeedback(`${message}<br><br>Pontuação Final: ${gameScore}/${gameQuestions.length * 10} (${percentage}%)`, 'final');
+    
+    // Esconde botão de próxima pergunta e mostra botão de reiniciar
+    nextQuestionButton.style.display = 'none';
+    
+    const restartButton = document.createElement('button');
+    restartButton.className = 'game-action-btn restart-game-btn';
+    restartButton.textContent = '🔄 Jogar Novamente';
+    restartButton.addEventListener('click', () => {
+        startGame();
+    });
+    
+    const backButton = document.createElement('button');
+    backButton.className = 'game-action-btn back-to-main-btn';
+    backButton.textContent = '← Voltar ao Menu Principal';
+    backButton.addEventListener('click', () => {
+        closeGame();
+    });
+    
+    const gameActions = document.querySelector('.game-actions');
+    gameActions.innerHTML = '';
+    gameActions.appendChild(restartButton);
+    gameActions.appendChild(backButton);
+}
+
+function closeGame() {
+    gameMode = false;
+    gameSection.style.display = 'none';
+    document.querySelector('.game-wrapper').style.display = 'flex';
+    document.querySelector('.compact-progress').style.display = 'block';
+    document.querySelector('.progress-dots').style.display = 'flex';
+}
+
+/* ============================================
    DOCUMENTAÇÃO: CONFIGURAÇÃO DE EVENT LISTENERS
    - Organiza todos os event listeners
    ============================================ */
@@ -723,6 +960,17 @@ function setupEventListeners() {
             closeModal();
         }
     });
+    
+    // Jogo
+    if (gameModeButton) {
+        gameModeButton.addEventListener('click', startGame);
+    }
+    if (closeGameButton) {
+        closeGameButton.addEventListener('click', closeGame);
+    }
+    if (nextQuestionButton) {
+        nextQuestionButton.addEventListener('click', nextGameQuestion);
+    }
 }
 
 /* ============================================

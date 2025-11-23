@@ -8,6 +8,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    ... <!-- Conteúdo da página -->
+
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
     <!-- ============================================
         DOCUMENTAÇÃO: Barra de Progresso Compacta
         - Barra menor e mais discreta
@@ -45,6 +57,10 @@
             <button class="random-mode-button" id="randomModeButton">
                 <span class="button-icon">🎲</span>
                 <span>Modo Aleatório</span>
+            </button>
+            <button class="game-mode-button" id="gameModeButton" style="margin-top: 10px;">
+                <span class="button-icon">🎮</span>
+                <span>JOGO</span>
             </button>
         </div>
     </div>
@@ -160,6 +176,60 @@
 
     <!-- Indicadores de progresso visual (bolinhas) -->
     <div class="progress-dots" id="progressDots"></div>
+
+    <!-- ============================================
+        DOCUMENTAÇÃO: Seção de Jogo
+        - Exibe vídeo e 4 alternativas
+        - Sistema de pontuação
+        - Progresso através dos 14 vídeos
+    ============================================ -->
+    <div class="game-section" id="gameSection" style="display: none;">
+        <div class="game-section-header">
+            <h2>🎮 JOGO - Teste seus Conhecimentos</h2>
+            <button class="close-game-btn" id="closeGameButton" aria-label="Fechar jogo">×</button>
+        </div>
+        
+        <div class="game-progress-info">
+            <div class="game-progress-bar">
+                <div class="game-progress-fill" id="gameProgressFill"></div>
+            </div>
+            <span class="game-progress-text" id="gameProgressText">Pergunta 1/14</span>
+            <span class="game-score-text" id="gameScoreText">Pontuação: 0</span>
+        </div>
+
+        <div class="game-card" id="gameCard">
+            <div class="game-video-container">
+                <div class="game-video-frame">
+                    <video 
+                        id="gameVideo" 
+                        class="game-video" 
+                        autoplay 
+                        muted 
+                        loop>
+                    </video>
+                    <div class="game-video-overlay"></div>
+                </div>
+            </div>
+
+            <div class="game-question">
+                <h3>Qual é o sinal exibido no vídeo?</h3>
+            </div>
+
+            <div class="game-options" id="gameOptions">
+                <!-- As alternativas serão geradas dinamicamente -->
+            </div>
+
+            <div class="game-feedback" id="gameFeedback" style="display: none;">
+                <div class="feedback-content" id="feedbackContent"></div>
+            </div>
+
+            <div class="game-actions">
+                <button class="game-action-btn next-question-btn" id="nextQuestionButton" style="display: none;">
+                    <span>Próxima Pergunta →</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- ============================================
         DOCUMENTAÇÃO: Modal de Conclusão Gamificado
