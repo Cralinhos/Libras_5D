@@ -8,100 +8,195 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Botão para abrir menu lateral -->
-    <button class="menu-toggle" aria-label="Abrir menu de sinais" title="Menu de sinais (M)">
-        ☰
-    </button>
+    <!-- ============================================
+        DOCUMENTAÇÃO: Header do Jogo
+        - Sistema de pontos no topo
+        - Barra de progresso visual melhorada
+        - Contador de sinais com badge
+    ============================================ -->
+    <header class="game-header">
+        <div class="header-top">
+            <button class="menu-toggle" aria-label="Abrir menu de sinais" title="Menu (M)">
+                <span class="menu-icon">☰</span>
+            </button>
+            
+            <div class="game-stats">
+                <div class="stat-item points-display">
+                    <span class="stat-icon">⭐</span>
+                    <span class="stat-value" id="pointsDisplay">0</span>
+                    <span class="stat-label">Pontos</span>
+                </div>
+                <div class="stat-item level-badge">
+                    <span class="stat-icon">🎯</span>
+                    <span class="stat-value">Nível 1</span>
+                </div>
+            </div>
+        </div>
 
-    <!-- Menu lateral com lista de sinais -->
+        <div class="progress-section">
+            <div class="progress-header">
+                <span class="progress-label">Progresso</span>
+                <span class="progress-text" id="progressText">1/14</span>
+            </div>
+            <div class="progress-bar-wrapper">
+                <div class="progress-bar-track">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
+                    <div class="progress-glow" id="progressGlow"></div>
+                </div>
+                <div class="progress-percentage" id="progressPercentage">7%</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================
+        DOCUMENTAÇÃO: Menu Lateral
+        - Lista de sinais com indicadores visuais
+        - Badges de conclusão para cada sinal
+        - Modo aleatório destacado
+    ============================================ -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2>Lista de Sinais</h2>
+            <h2>📚 Sinais de Cumprimentos</h2>
             <button class="sidebar-close" aria-label="Fechar menu">×</button>
         </div>
         <div class="sidebar-content">
-            <ul class="signals-list" id="signalsList" role="list">
-                <!-- Preenchido via JavaScript -->
-            </ul>
+            <ul class="signals-list" id="signalsList" role="list"></ul>
         </div>
         <div class="sidebar-footer">
-            <button class="random-mode-button" id="randomModeButton" aria-label="Ativar modo de prática aleatória">
-                🎲 Modo Aleatório
+            <button class="random-mode-button" id="randomModeButton">
+                <span class="button-icon">🎲</span>
+                <span>Modo Aleatório</span>
             </button>
         </div>
     </div>
-
-    <!-- Overlay para fechar menu -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <div class="app-title"><h1>APRENDA LIBRAS — CUMPRIMENTOS</h1></div>
-
-    <div class="container">
-        <div class="header-game">
-            <div class="level-info">NÍVEL 1: CUMPRIMENTOS</div>
-            <div class="signal-counter" id="signalCounter">Sinal 1 de 14</div>
-            <div class="progress-info">
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" id="progressBarFill" style="width: 7.14%;"></div> 
-                </div>
-                <span class="progress-percentage" id="progressPercentage">7%</span>
-            </div>
-        </div>
-
+    <!-- ============================================
+        DOCUMENTAÇÃO: Área Principal do Jogo
+        - Card centralizado com design moderno
+        - Área de vídeo com controles flutuantes
+        - Botões de ação grandes e intuitivos
+    ============================================ -->
+    <main class="game-container">
         <div class="card" id="card">
-            <div class="card-inner-gradient"></div> 
-            <div class="card-content">
-                <div class="card-header">
-                    <div class="title-banner" id="titleBanner">BOM DIA</div>
-                </div>
+            <!-- Badge de número do sinal -->
+            <div class="signal-badge" id="signalBadge">
+                <span class="badge-number" id="badgeNumber">1</span>
+                <span class="badge-total">/14</span>
+            </div>
 
-                <div class="avatar-area">
-                    <video src="CUMPRIMENTOS/1_BOM_DIA.mp4" alt="Avatar fazendo o sinal de Bom Dia" class="avatar-img" id="avatarVideo" autoplay muted loop></video>
-                    <div class="video-controls">
-                        <button class="play-pause-button" id="playPauseButton" aria-label="Pausar vídeo" title="Pausar/Reproduzir (Espaço)">⏸</button>
-                        <button class="repeat-button" id="repeatButton" aria-label="Repetir vídeo" title="Repetir (R)">↻</button>
-                        <div class="speed-control">
-                            <button class="speed-button" id="speedButton" aria-label="Velocidade do vídeo" title="Velocidade">1x</button>
-                        </div>
-                    </div>
-                </div>
+            <!-- Título do sinal com animação -->
+            <div class="signal-title-container">
+                <h1 class="signal-title" id="titleBanner">BOM DIA</h1>
+                <div class="title-underline"></div>
+            </div>
 
-                <div class="meaning-section">
-                    <h3>CONTEXTO DE USO:</h3>
-                    <p class="meaning-text" id="meaningText">Usado para cumprimentar alguém pela manhã</p>
+            <!-- Área do vídeo com frame decorativo -->
+            <div class="video-container">
+                <div class="video-frame">
+                    <video 
+                        src="CUMPRIMENTOS/1_BOM_DIA.mp4" 
+                        alt="Avatar fazendo o sinal de Bom Dia" 
+                        class="signal-video" 
+                        id="avatarVideo" 
+                        autoplay 
+                        muted 
+                        loop>
+                    </video>
+                    <div class="video-overlay"></div>
                 </div>
-
-                <div class="navigation-buttons">
-                    <button class="prev-signal-button" id="prevSignalButton" aria-label="Sinal anterior" title="Anterior (←)">← ANTERIOR</button>
-                    <button class="next-signal-button" id="nextSignalButton" aria-label="Próximo sinal" title="Próximo (→ ou Enter)">PRÓXIMO SINAL →</button>
+                
+                <!-- Controles de vídeo flutuantes -->
+                <div class="video-controls-panel">
+                    <button class="control-btn play-pause-btn" id="playPauseButton" aria-label="Pausar vídeo" title="Pausar (Espaço)">
+                        <span>⏸</span>
+                    </button>
+                    <button class="control-btn repeat-btn" id="repeatButton" aria-label="Repetir vídeo" title="Repetir (R)">
+                        <span>↻</span>
+                    </button>
+                    <button class="control-btn speed-btn" id="speedButton" aria-label="Velocidade" title="Velocidade">
+                        <span>1x</span>
+                    </button>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Modal de Conclusão -->
+            <!-- Seção de contexto com design moderno -->
+            <div class="context-section">
+                <div class="context-header">
+                    <span class="context-icon">💡</span>
+                    <h3>Contexto de Uso</h3>
+                </div>
+                <p class="context-text" id="meaningText">Usado para cumprimentar alguém pela manhã</p>
+            </div>
+
+            <!-- Botões de navegação grandes e visíveis -->
+            <div class="action-buttons">
+                <button class="action-btn prev-btn" id="prevSignalButton" aria-label="Sinal anterior" title="Anterior (←)">
+                    <span class="btn-icon">←</span>
+                    <span class="btn-text">Anterior</span>
+                </button>
+                <button class="action-btn next-btn primary" id="nextSignalButton" aria-label="Próximo sinal" title="Próximo (→)">
+                    <span class="btn-text">Próximo</span>
+                    <span class="btn-icon">→</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Indicadores de progresso visual (bolinhas) -->
+        <div class="progress-dots" id="progressDots"></div>
+    </main>
+
+    <!-- ============================================
+        DOCUMENTAÇÃO: Modal de Conclusão Gamificado
+        - Animação de celebração
+        - Exibição de pontos ganhos
+        - Opções de ação claras
+    ============================================ -->
     <div class="modal-overlay" id="completionModal">
         <div class="modal-content">
+            <div class="celebration-animation">
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+            </div>
             <div class="modal-header">
                 <h2>🎉 Parabéns!</h2>
+                <p class="completion-message">Você completou todos os <strong id="totalSignalsCompleted">14</strong> sinais!</p>
             </div>
-            <div class="modal-body">
-                <p>Você completou todos os <strong id="totalSignalsCompleted">14</strong> sinais de cumprimentos!</p>
-                <p class="modal-subtitle">Continue praticando para melhorar ainda mais!</p>
+            <div class="modal-stats">
+                <div class="modal-stat">
+                    <span class="modal-stat-value" id="finalPoints">0</span>
+                    <span class="modal-stat-label">Pontos Ganhos</span>
+                </div>
             </div>
             <div class="modal-footer">
-                <button class="modal-button restart-button" id="restartButton">🔄 Reiniciar</button>
-                <button class="modal-button random-button" id="randomPracticeButton">🎲 Prática Aleatória</button>
-                <button class="modal-button close-modal-button" id="closeModalButton">Fechar</button>
+                <button class="modal-btn restart-btn" id="restartButton">
+                    <span>🔄</span> Reiniciar
+                </button>
+                <button class="modal-btn random-btn" id="randomPracticeButton">
+                    <span>🎲</span> Prática Aleatória
+                </button>
+                <button class="modal-btn close-btn" id="closeModalButton">Fechar</button>
             </div>
         </div>
     </div>
 
-    <!-- Dica de atalhos de teclado -->
-    <div class="keyboard-hints" id="keyboardHints">
-        <div class="hint-item">← → Navegar</div>
-        <div class="hint-item">Espaço Repetir</div>
-        <div class="hint-item">M Menu</div>
+    <!-- ============================================
+        DOCUMENTAÇÃO: Notificações Toast
+        - Feedback visual ao completar ações
+        - Animações suaves de entrada/saída
+    ============================================ -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ============================================
+        DOCUMENTAÇÃO: Dicas de Atalhos
+        - Visível mas discreto
+        - Informações úteis para o usuário
+    ============================================ -->
+    <div class="keyboard-hints">
+        <div class="hint-item"><kbd>←</kbd><kbd>→</kbd> Navegar</div>
+        <div class="hint-item"><kbd>Espaço</kbd> Repetir</div>
+        <div class="hint-item"><kbd>M</kbd> Menu</div>
     </div>
 
     <script src="script.js"></script>

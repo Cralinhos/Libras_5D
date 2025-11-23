@@ -1,161 +1,598 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+/* ============================================
+   DOCUMENTAÇÃO: IMPORTAÇÕES E RESET
+   - Importa fonte Poppins do Google Fonts
+   - Reset básico para garantir consistência
+   ============================================ */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Estilos Gerais */
+/* ============================================
+   DOCUMENTAÇÃO: VARIÁVEIS CSS (PALETA DE CORES)
+   - Mantém a paleta original do projeto
+   - Facilita manutenção e consistência
+   ============================================ */
+:root {
+    --color-primary: #4ad0a0;
+    --color-primary-dark: #47927e;
+    --color-primary-darker: #1a7a6d;
+    --color-secondary: #66C9B2;
+    --color-background: #e9f5f2;
+    --color-white: #ffffff;
+    --color-text: #333;
+    --color-text-light: #555;
+    --color-text-lighter: #888;
+    --color-success: #2ecc71;
+    --color-progress-start: #63f7b0;
+    --color-progress-end: #2ecc71;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.4);
+    --border-radius: 20px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: BODY E FUNDO
+   - Fundo com gradiente sutil
+   - Layout centralizado
+   - Overflow controlado
+   ============================================ */
 body {
     font-family: "Poppins", Arial, sans-serif;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background: linear-gradient(135deg, var(--color-background) 0%, #d4e8e1 100%);
     min-height: 100vh;
-    background: #e9f5f2; 
-    overflow-x: hidden;
-    position: relative;
-}
-
-h1 {
-  margin-bottom: 20px;
-  color: #1a7a6d;
-  font-size: 2.1em;
-  font-weight: 600;
-}
-
-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:  #e9f5f2;
-    pointer-events: none;
-}
-
-.container {
-    position: relative;
-    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 40px;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
 }
 
-.container.fade-out {
-    opacity: 0;
-    transform: translateY(10px);
+/* ============================================
+   DOCUMENTAÇÃO: HEADER DO JOGO
+   - Layout flexível com stats e progresso
+   - Design moderno e compacto
+   - Responsivo
+   ============================================ */
+.game-header {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 30px;
+    z-index: 100;
 }
 
-/* Topo da Página: Nível, Contador e Barra de Progresso */
-.header-game {
+.header-top {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 15px;
-    padding: 10px 20px;
-    background-color: #66C9B2;
-    border-radius: 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(5px);
     margin-bottom: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
+    gap: 15px;
 }
 
-.level-info {
-    font-size: 1.1em;
-    font-weight: bold;
-    color: #f0f0f0;
-}
-
-.signal-counter {
-    font-size: 1em;
-    font-weight: 600;
-    color: #fff;
-    background-color: rgba(255, 255, 255, 0.2);
-    padding: 5px 12px;
-    border-radius: 15px;
-}
-
-.progress-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.progress-bar-container {
-    width: 150px;
-    height: 15px;
-    background-color: #e9f5f2;
-    border-radius: 15px;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-.progress-bar-fill {
-    width: 7.14%;
-    height: 100%;
-    background: linear-gradient(90deg, #63f7b0 0%, #2ecc71 100%); 
-    border-radius: 7px;
-    transition: width 0.5s ease-in-out;
-}
-
-.progress-percentage {
-    font-size: 0.9em;
-    font-weight: bold;
-    color: #fff;
-    min-width: 35px;
-}
-
-.app-title {
-    position: absolute;
-    top: 20px;
-    color: #1a7a6d;
-    font-size: 1.2em;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-/* Botão Menu Toggle */
 .menu-toggle {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    background-color: #4ad0a0;
-    color: #fff;
+    background: var(--color-primary);
+    color: var(--color-white);
     border: none;
     border-radius: 50%;
     width: 50px;
     height: 50px;
     font-size: 1.5em;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease, background-color 0.2s ease;
-    z-index: 1000;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1000;
 }
 
 .menu-toggle:hover {
-    transform: scale(1.1);
-    background-color: #47927e;
+    transform: scale(1.1) rotate(90deg);
+    background: var(--color-primary-dark);
+    box-shadow: var(--shadow-lg);
 }
 
-/* Menu Lateral */
+.game-stats {
+    display: flex;
+    gap: 15px;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.stat-item {
+    background: var(--color-white);
+    padding: 12px 20px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-icon {
+    font-size: 1.3em;
+}
+
+.stat-value {
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--color-primary-darker);
+}
+
+.stat-label {
+    font-size: 0.85em;
+    color: var(--color-text-light);
+}
+
+.points-display {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: var(--color-text);
+}
+
+.points-display .stat-value {
+    color: var(--color-text);
+}
+
+.level-badge {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+    color: var(--color-white);
+}
+
+.level-badge .stat-value {
+    color: var(--color-white);
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: BARRA DE PROGRESSO
+   - Design moderno com efeito glow
+   - Animação suave
+   - Informações claras
+   ============================================ */
+.progress-section {
+    background: var(--color-white);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.progress-label {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 0.95em;
+}
+
+.progress-text {
+    font-weight: 700;
+    color: var(--color-primary-darker);
+    font-size: 1em;
+}
+
+.progress-bar-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.progress-bar-track {
+    flex: 1;
+    height: 20px;
+    background: var(--color-background);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 7.14%;
+    background: linear-gradient(90deg, var(--color-progress-start) 0%, var(--color-progress-end) 100%);
+    border-radius: 10px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+}
+
+.progress-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.progress-percentage {
+    font-weight: 700;
+    color: var(--color-primary-darker);
+    font-size: 1em;
+    min-width: 40px;
+    text-align: right;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: CONTAINER PRINCIPAL
+   - Centralizado e responsivo
+   - Espaçamento adequado
+   ============================================ */
+.game-container {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: CARD PRINCIPAL
+   - Design moderno com sombras
+   - Animações de transição
+   - Layout organizado
+   ============================================ */
+.card {
+    background: var(--color-white);
+    border-radius: 30px;
+    padding: 40px;
+    width: 100%;
+    box-shadow: var(--shadow-xl);
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: BADGE DO SINAL
+   - Indicador visual do número do sinal
+   - Posicionado no topo direito
+   - Design circular moderno
+   ============================================ */
+.signal-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: var(--color-white);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+    font-weight: 700;
+}
+
+.badge-number {
+    font-size: 1.8em;
+    line-height: 1;
+}
+
+.badge-total {
+    font-size: 0.7em;
+    opacity: 0.9;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: TÍTULO DO SINAL
+   - Tipografia destacada
+   - Animação de entrada
+   - Sublinhado decorativo
+   ============================================ */
+.signal-title-container {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
+
+.signal-title {
+    font-size: 2.5em;
+    font-weight: 800;
+    color: var(--color-primary-darker);
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: titlePulse 2s ease-in-out infinite;
+}
+
+@keyframes titlePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+.title-underline {
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    margin: 0 auto;
+    border-radius: 2px;
+    animation: underlineGrow 0.5s ease-out;
+}
+
+@keyframes underlineGrow {
+    from { width: 0; }
+    to { width: 100px; }
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: CONTAINER DE VÍDEO
+   - Frame decorativo ao redor do vídeo
+   - Controles flutuantes
+   - Design moderno
+   ============================================ */
+.video-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 30px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.video-frame {
+    position: relative;
+    width: 100%;
+    padding-top: 75%; /* Aspect ratio 4:3 */
+    background: var(--color-background);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.signal-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
+    pointer-events: none;
+}
+
+.video-controls-panel {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    background: rgba(74, 208, 160, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 10px 15px;
+    border-radius: 25px;
+    box-shadow: var(--shadow-md);
+}
+
+.control-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: var(--color-white);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    transition: var(--transition);
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.15);
+}
+
+.speed-btn {
+    font-size: 0.9em;
+    font-weight: 600;
+    min-width: 45px;
+    border-radius: 20px;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: SEÇÃO DE CONTEXTO
+   - Design moderno com ícone
+   - Background suave
+   - Tipografia legível
+   ============================================ */
+.context-section {
+    background: linear-gradient(135deg, var(--color-background) 0%, #d4e8e1 100%);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    border-left: 4px solid var(--color-primary);
+}
+
+.context-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.context-icon {
+    font-size: 1.5em;
+}
+
+.context-header h3 {
+    color: var(--color-primary-darker);
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.context-text {
+    color: var(--color-text);
+    font-size: 1em;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: BOTÕES DE AÇÃO
+   - Design grande e intuitivo
+   - Feedback visual ao hover
+   - Layout responsivo
+   ============================================ */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+.action-btn {
+    flex: 1;
+    padding: 18px 25px;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: var(--transition);
+    box-shadow: var(--shadow-md);
+    color: var(--color-white);
+}
+
+.prev-btn {
+    background: var(--color-text-lighter);
+}
+
+.prev-btn:hover:not(:disabled) {
+    background: var(--color-text-light);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.prev-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.next-btn {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+}
+
+.next-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+}
+
+.next-btn.primary {
+    background: linear-gradient(135deg, var(--color-success) 0%, var(--color-primary) 100%);
+}
+
+.btn-icon {
+    font-size: 1.3em;
+}
+
+.btn-text {
+    font-weight: 700;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: INDICADORES DE PROGRESSO (BOLINHAS)
+   - Visualização clara do progresso
+   - Animação ao completar
+   ============================================ */
+.progress-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 600px;
+}
+
+.progress-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-background);
+    border: 2px solid var(--color-primary);
+    transition: var(--transition);
+}
+
+.progress-dot.completed {
+    background: var(--color-primary);
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(74, 208, 160, 0.5);
+}
+
+.progress-dot.active {
+    background: var(--color-secondary);
+    transform: scale(1.3);
+    box-shadow: 0 0 15px rgba(102, 201, 178, 0.7);
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: MENU LATERAL
+   - Design moderno
+   - Lista de sinais com badges
+   ============================================ */
 .sidebar {
     position: fixed;
     top: 0;
     left: -320px;
     width: 300px;
     height: 100vh;
-    background-color: #ffffff;
-    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
+    background: var(--color-white);
+    box-shadow: var(--shadow-xl);
     z-index: 2000;
     transition: left 0.3s ease;
     display: flex;
@@ -167,12 +604,12 @@ body::before {
 }
 
 .sidebar-header {
-    background-color: #66C9B2;
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
     padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #fff;
+    color: var(--color-white);
 }
 
 .sidebar-header h2 {
@@ -181,22 +618,20 @@ body::before {
 }
 
 .sidebar-close {
-    background: none;
+    background: rgba(255, 255, 255, 0.2);
     border: none;
-    color: #fff;
+    color: var(--color-white);
     font-size: 2em;
     cursor: pointer;
     width: 40px;
     height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: 50%;
-    transition: background-color 0.2s ease;
+    transition: var(--transition);
 }
 
 .sidebar-close:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
 }
 
 .sidebar-content {
@@ -212,48 +647,60 @@ body::before {
 }
 
 .signals-list li {
-    padding: 12px 20px;
+    padding: 15px 20px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: var(--transition);
     border-left: 4px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .signals-list li:hover {
-    background-color: #e9f5f2;
+    background: var(--color-background);
 }
 
 .signals-list li.active {
-    background-color: #e9f5f2;
-    border-left-color: #4ad0a0;
+    background: var(--color-background);
+    border-left-color: var(--color-primary);
     font-weight: 600;
-    color: #1a7a6d;
+    color: var(--color-primary-darker);
+}
+
+.signal-completed {
+    color: var(--color-success);
+    font-size: 1.2em;
 }
 
 .sidebar-footer {
     padding: 15px;
-    border-top: 1px solid #e9f5f2;
+    border-top: 1px solid var(--color-background);
 }
 
 .random-mode-button {
     width: 100%;
-    padding: 12px;
-    background-color: #4ad0a0;
-    color: #fff;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: var(--color-white);
     border: none;
-    border-radius: 10px;
+    border-radius: 15px;
     font-size: 1em;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
 .random-mode-button:hover {
-    background-color: #47927e;
     transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 .random-mode-button.active {
-    background-color: #1a7a6d;
+    background: linear-gradient(135deg, var(--color-primary-darker) 0%, var(--color-primary-dark) 100%);
 }
 
 .sidebar-overlay {
@@ -262,11 +709,11 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5);
     z-index: 1999;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: var(--transition);
 }
 
 .sidebar-overlay.active {
@@ -274,236 +721,27 @@ body::before {
     visibility: visible;
 }
 
-/* Cartão Principal do Sinal */
-.card {
-    background-color: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    width: 350px; 
-    padding: 30px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card-inner-gradient {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(240,248,255,1) 100%); 
-    z-index: 0;
-    border-radius: 20px;
-}
-
-.card-content {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.card-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.title-banner {
-    background: #4ad0a0;
-    color: #fff;
-    padding: 10px 100px;
-    border-radius: 5px;
-    font-weight: bold;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    position: relative;
-    transform: translateY(-10px);
-    transition: transform 0.3s ease;
-}
-
-.title-banner::before, .title-banner::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    bottom: -10px;
-}
-
-.title-banner::before {
-    left: 15px;
-    border-width: 10px 0 0 10px;
-    border-color: transparent transparent transparent #ffa500;
-}
-
-.title-banner::after {
-    right: 15px;
-    border-width: 10px 10px 0 0;
-    border-color: transparent #ffa500 transparent transparent;
-}
-
-.avatar-area {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.avatar-img {
-    width: 200px; 
-    height: auto;
-    border-radius: 20px;
-    border: 2px solid #8b8686;
-    transition: opacity 0.3s ease;
-}
-
-.avatar-img.fade {
-    opacity: 0.5;
-}
-
-.video-controls {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    background-color: rgba(74, 208, 160, 0.9);
-    padding: 8px 15px;
-    border-radius: 25px;
-    backdrop-filter: blur(5px);
-}
-
-.play-pause-button,
-.repeat-button,
-.speed-button {
-    background-color: transparent;
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    font-size: 1.2em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.play-pause-button:hover,
-.repeat-button:hover,
-.speed-button:hover {
-    transform: scale(1.15);
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.speed-control {
-    position: relative;
-}
-
-.speed-button {
-    font-size: 0.9em;
-    font-weight: 600;
-    min-width: 40px;
-    border-radius: 15px;
-}
-
-.meaning-section {
-    background-color: #e9f5f2;
-    padding: 15px 20px;
-    border-radius: 15px;
-    margin-bottom: 25px;
-    width: calc(100% - 40px); 
-    text-align: justify;
-}
-
-.meaning-section h3 {
-    margin-top: 0;
-    color: #333;
-    font-size: 1.1em;
-    margin-bottom: 5px;
-}
-
-.meaning-text {
-    color: #555;
-    font-size: 0.95em;
-    line-height: 1.4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-}
-
-/* Navegação */
-.navigation-buttons {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-    justify-content: center;
-}
-
-.prev-signal-button,
-.next-signal-button {
-    background: #4ad0a0;
-    color: #fff;
-    padding: 15px 25px;
-    border: none;
-    border-radius: 28px;
-    font-size: 1em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.25s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-    flex: 1;
-    max-width: 150px;
-}
-
-.prev-signal-button:hover,
-.next-signal-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
-    background: #47927e;
-}
-
-.prev-signal-button:active,
-.next-signal-button:active {
-    transform: translateY(0);
-}
-
-.prev-signal-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-}
-
-/* Modal de Conclusão */
+/* ============================================
+   DOCUMENTAÇÃO: MODAL DE CONCLUSÃO
+   - Design celebratório
+   - Animações de confete
+   - Estatísticas destacadas
+   ============================================ */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     z-index: 3000;
     display: flex;
     justify-content: center;
     align-items: center;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: var(--transition);
+    backdrop-filter: blur(5px);
 }
 
 .modal-overlay.active {
@@ -512,40 +750,100 @@ body::before {
 }
 
 .modal-content {
-    background-color: #ffffff;
-    border-radius: 20px;
-    padding: 40px;
+    background: var(--color-white);
+    border-radius: 30px;
+    padding: 50px 40px;
     max-width: 500px;
     width: 90%;
     text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    transform: scale(0.9);
-    transition: transform 0.3s ease;
+    box-shadow: var(--shadow-xl);
+    transform: scale(0.8);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
 }
 
 .modal-overlay.active .modal-content {
     transform: scale(1);
 }
 
-.modal-header h2 {
-    color: #1a7a6d;
-    font-size: 2em;
-    margin-bottom: 20px;
+.celebration-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
 }
 
-.modal-body {
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--color-primary);
+    animation: confettiFall 3s infinite;
+}
+
+.confetti:nth-child(1) {
+    left: 20%;
+    animation-delay: 0s;
+    background: var(--color-primary);
+}
+
+.confetti:nth-child(2) {
+    left: 50%;
+    animation-delay: 0.5s;
+    background: var(--color-secondary);
+}
+
+.confetti:nth-child(3) {
+    left: 80%;
+    animation-delay: 1s;
+    background: var(--color-success);
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(600px) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+.modal-header h2 {
+    color: var(--color-primary-darker);
+    font-size: 2.5em;
+    margin-bottom: 15px;
+}
+
+.completion-message {
+    color: var(--color-text);
+    font-size: 1.1em;
+    margin-bottom: 25px;
+}
+
+.modal-stats {
+    background: var(--color-background);
+    padding: 20px;
+    border-radius: 15px;
     margin-bottom: 30px;
 }
 
-.modal-body p {
-    color: #555;
-    font-size: 1.1em;
-    margin-bottom: 10px;
+.modal-stat-value {
+    display: block;
+    font-size: 2.5em;
+    font-weight: 800;
+    color: var(--color-primary-darker);
+    margin-bottom: 5px;
 }
 
-.modal-subtitle {
-    color: #888;
-    font-size: 0.95em;
+.modal-stat-label {
+    color: var(--color-text-light);
+    font-size: 0.9em;
 }
 
 .modal-footer {
@@ -555,50 +853,109 @@ body::before {
     flex-wrap: wrap;
 }
 
-.modal-button {
-    padding: 12px 25px;
+.modal-btn {
+    padding: 15px 25px;
     border: none;
-    border-radius: 25px;
+    border-radius: 15px;
     font-size: 1em;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-    background-color: #4ad0a0;
-    color: #fff;
+    transition: var(--transition);
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.modal-button:hover {
-    transform: translateY(-2px);
-    background-color: #47927e;
+.restart-btn {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
 }
 
-.restart-button {
-    background-color: #66C9B2;
+.random-btn {
+    background: linear-gradient(135deg, var(--color-primary-darker) 0%, var(--color-primary-dark) 100%);
 }
 
-.random-button {
-    background-color: #1a7a6d;
+.close-btn {
+    background: var(--color-text-lighter);
 }
 
-.close-modal-button {
-    background-color: #888;
+.modal-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
 }
 
-/* Dicas de Atalhos de Teclado */
+/* ============================================
+   DOCUMENTAÇÃO: TOAST NOTIFICATIONS
+   - Feedback visual para ações
+   - Animações suaves
+   ============================================ */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 4000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    background: var(--color-white);
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 250px;
+    animation: toastSlideIn 0.3s ease-out;
+    border-left: 4px solid var(--color-primary);
+}
+
+@keyframes toastSlideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast.success {
+    border-left-color: var(--color-success);
+}
+
+.toast-icon {
+    font-size: 1.5em;
+}
+
+.toast-message {
+    flex: 1;
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: DICAS DE TECLADO
+   - Design discreto mas útil
+   - Informações claras
+   ============================================ */
 .keyboard-hints {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: rgba(26, 122, 109, 0.9);
-    color: #fff;
+    background: rgba(26, 122, 109, 0.95);
+    color: var(--color-white);
     padding: 15px;
     border-radius: 15px;
     font-size: 0.85em;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-md);
     z-index: 100;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
     opacity: 0.8;
-    transition: opacity 0.3s ease;
+    transition: var(--transition);
 }
 
 .keyboard-hints:hover {
@@ -607,44 +964,69 @@ body::before {
 
 .hint-item {
     margin: 5px 0;
-    padding: 3px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-/* Responsividade */
+kbd {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-weight: 600;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: RESPONSIVIDADE
+   - Adaptação para mobile
+   - Layout flexível
+   ============================================ */
 @media (max-width: 768px) {
-    .header-game {
+    .game-header {
+        margin-bottom: 20px;
+    }
+
+    .header-top {
+        flex-wrap: wrap;
+    }
+
+    .game-stats {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .card {
+        padding: 25px;
+    }
+
+    .signal-title {
+        font-size: 2em;
+    }
+
+    .action-buttons {
         flex-direction: column;
-        gap: 10px;
-    }
-
-    .navigation-buttons {
-        flex-direction: column;
-    }
-
-    .prev-signal-button,
-    .next-signal-button {
-        max-width: 100%;
-    }
-
-    .sidebar {
-        width: 280px;
-        left: -280px;
     }
 
     .keyboard-hints {
         display: none;
     }
 
-    .app-title {
-        font-size: 1em;
+    .sidebar {
+        width: 280px;
+        left: -280px;
     }
 }
 
-/* Animações */
+/* ============================================
+   DOCUMENTAÇÃO: ANIMAÇÕES GLOBAIS
+   - Transições suaves
+   - Efeitos de hover
+   ============================================ */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -652,15 +1034,19 @@ body::before {
     }
 }
 
-.card-content {
-    animation: fadeIn 0.3s ease;
+.card {
+    animation: fadeIn 0.5s ease-out;
 }
 
-/* Acessibilidade */
+/* ============================================
+   DOCUMENTAÇÃO: ACESSIBILIDADE
+   - Foco visível
+   - Contraste adequado
+   ============================================ */
 button:focus,
 video:focus {
-    outline: 3px solid #4ad0a0;
-    outline-offset: 2px;
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
 }
 
 .sr-only {
