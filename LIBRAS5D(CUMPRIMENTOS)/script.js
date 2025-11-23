@@ -72,6 +72,8 @@ let videoPlaybackRate = 1;
 let isPlaying = true;
 let points = 0;
 let completedSignals = new Set(); // Armazena quais sinais foram completados
+let isNavigating = false; // Flag para prevenir múltiplas navegações simultâneas
+let lastKeyPress = {}; // Rastreia última tecla pressionada para prevenir spam
 
 // Velocidades disponíveis para o vídeo
 const playbackRates = [0.5, 0.75, 1, 1.25, 1.5, 2];
@@ -82,8 +84,48 @@ let currentPlaybackRateIndex = 2; // Começa em 1x
    - Adiciona pontos ao completar sinais
    - Feedback visual com animação
    ============================================ */
-function addPoints(amount) {
+// Variável para rastrear última adição de pontos (proteção extra)
+let lastPointsAddition = {
+    signalIndex: null,
+    timestamp: 0,
+    amount: 0
+};
+
+// Set para rastrear quais sinais já receberam pontos nesta sessão
+let pointsGivenForSignals = new Set();
+
+function addPoints(amount, signalIndex = null) {
+    // Usa o índice do sinal atual se não fornecido
+    const targetIndex = signalIndex !== null ? signalIndex : currentSignalIndex;
+    
+    // PROTEÇÃO MÚLTIPLA:
+    // 1. Verifica se pontos já foram dados para este sinal específico
+    const pointsKey = `signal_${targetIndex}_${amount}`;
+    if (pointsGivenForSignals.has(pointsKey)) {
+        console.log('Pontos já foram adicionados para este sinal');
+        return;
+    }
+    
+    // 2. Verifica timestamp (proteção contra chamadas muito rápidas)
+    const now = Date.now();
+    if (lastPointsAddition.signalIndex === targetIndex && 
+        lastPointsAddition.amount === amount &&
+        (now - lastPointsAddition.timestamp) < 2000) {
+        console.log('Pontos já foram adicionados recentemente');
+        return;
+    }
+    
+    // Marca que pontos foram dados para este sinal
+    pointsGivenForSignals.add(pointsKey);
+    
+    // Atualiza registro
+    lastPointsAddition.signalIndex = targetIndex;
+    lastPointsAddition.amount = amount;
+    lastPointsAddition.timestamp = now;
+    
+    // Adiciona pontos
     points += amount;
+    
     updatePointsDisplay();
     showToast(`+${amount} pontos!`, 'success');
     
@@ -225,6 +267,8 @@ function updateSignalContent(index) {
     currentSignalIndex = index;
     const signal = signals[index];
     
+    // Não reseta a proteção - mantém o histórico para prevenir duplicação
+    
     // Atualiza título com animação
     titleBanner.textContent = signal.title;
     
@@ -269,31 +313,71 @@ function updateSignalContent(index) {
    DOCUMENTAÇÃO: NAVEGAÇÃO ENTRE SINAIS
    - Avança ou retrocede entre sinais
    - Adiciona pontos ao completar
+   - Proteção robusta contra spam de teclas
    ============================================ */
 function nextSignal() {
-    // Marca sinal atual como completado e adiciona pontos
-    if (!completedSignals.has(currentSignalIndex)) {
-        completedSignals.add(currentSignalIndex);
-        addPoints(10); // 10 pontos por sinal completado
-        updateProgressDots();
+    // PROTEÇÃO 1: Previne múltiplas chamadas simultâneas
+    if (isNavigating) {
+        console.log('Navegação já em andamento, ignorando...');
+        return;
     }
     
+    // PROTEÇÃO 2: Marca imediatamente como navegando
+    isNavigating = true;
+    
+    // PROTEÇÃO 3: Salva o índice atual ANTES de qualquer operação
+    const signalIndexToComplete = currentSignalIndex;
+    
+    // PROTEÇÃO 4: Verifica se o sinal já foi completado ANTES de processar
+    const alreadyCompleted = completedSignals.has(signalIndexToComplete);
+    
+    if (!alreadyCompleted) {
+        // Marca como completo IMEDIATAMENTE (antes de adicionar pontos)
+        completedSignals.add(signalIndexToComplete);
+        
+        // Adiciona pontos com o índice específico para garantir unicidade
+        addPoints(10, signalIndexToComplete);
+        updateProgressDots();
+    } else {
+        console.log(`Sinal ${signalIndexToComplete} já foi completado, pulando adição de pontos`);
+    }
+    
+    // Navega para o próximo sinal
     if (isRandomMode) {
         loadRandomSignal();
     } else if (currentSignalIndex < totalSignals - 1) {
         loadSignal(currentSignalIndex + 1);
     } else {
-        // Bônus por completar todos os sinais
-        if (completedSignals.size === totalSignals) {
-            addPoints(50); // Bônus de 50 pontos
+        // Bônus por completar todos os sinais (verificação adicional)
+        const allCompleted = completedSignals.size === totalSignals;
+        const bonusKey = 'bonus_final';
+        if (allCompleted && !pointsGivenForSignals.has(bonusKey)) {
+            pointsGivenForSignals.add(bonusKey);
+            addPoints(50, 'bonus'); // Bônus de 50 pontos
         }
         showCompletionModal();
     }
+    
+    // Libera a flag após um delay maior
+    setTimeout(() => {
+        isNavigating = false;
+    }, 1000);
 }
 
 function prevSignal() {
+    // Previne múltiplas chamadas simultâneas
+    if (isNavigating) {
+        return;
+    }
+    
     if (currentSignalIndex > 0) {
+        isNavigating = true;
         loadSignal(currentSignalIndex - 1);
+        
+        // Libera a flag após um pequeno delay
+        setTimeout(() => {
+            isNavigating = false;
+        }, 500);
     }
 }
 
@@ -492,6 +576,9 @@ function restart() {
     isRandomMode = false;
     points = 0;
     completedSignals.clear();
+    pointsGivenForSignals.clear(); // Limpa histórico de pontos
+    lastPointsAddition = { signalIndex: null, timestamp: 0, amount: 0 }; // Reseta registro
+    isNavigating = false; // Reseta flag de navegação
     randomModeButton.classList.remove('active');
     randomModeButton.innerHTML = '<span class="button-icon">🎲</span><span>Modo Aleatório</span>';
     updatePointsDisplay();
@@ -513,6 +600,7 @@ function startRandomPractice() {
    - Navegação rápida
    - Controles de vídeo
    - Menu
+   - Proteção contra spam de teclas (key repeat)
    ============================================ */
 function setupKeyboardShortcuts() {
     document.addEventListener('keydown', (e) => {
@@ -520,16 +608,35 @@ function setupKeyboardShortcuts() {
             return;
         }
         
-        switch(e.key) {
+        // Previne key repeat (tecla mantida pressionada)
+        const key = e.key;
+        const now = Date.now();
+        
+        // Se a mesma tecla foi pressionada há menos de 300ms, ignora (key repeat)
+        if (lastKeyPress[key] && (now - lastKeyPress[key]) < 300) {
+            e.preventDefault();
+            return;
+        }
+        
+        lastKeyPress[key] = now;
+        
+        switch(key) {
             case 'ArrowRight':
             case 'Enter':
                 e.preventDefault();
-                nextSignal();
+                e.stopPropagation(); // Para propagação do evento
+                // Verifica se não está navegando antes de chamar
+                if (!isNavigating) {
+                    nextSignal();
+                }
                 break;
                 
             case 'ArrowLeft':
                 e.preventDefault();
-                prevSignal();
+                // Verifica se não está navegando antes de chamar
+                if (!isNavigating) {
+                    prevSignal();
+                }
                 break;
                 
             case ' ':
@@ -567,6 +674,11 @@ function setupKeyboardShortcuts() {
                 break;
         }
     });
+    
+    // Limpa o registro quando a tecla é solta
+    document.addEventListener('keyup', (e) => {
+        delete lastKeyPress[e.key];
+    });
 }
 
 /* ============================================
@@ -574,9 +686,20 @@ function setupKeyboardShortcuts() {
    - Organiza todos os event listeners
    ============================================ */
 function setupEventListeners() {
-    // Navegação
-    nextSignalButton.addEventListener('click', nextSignal);
-    prevSignalButton.addEventListener('click', prevSignal);
+    // Navegação com proteção contra múltiplos cliques
+    nextSignalButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (!isNavigating) {
+            nextSignal();
+        }
+    });
+    
+    prevSignalButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (!isNavigating) {
+            prevSignal();
+        }
+    });
     
     // Controles de vídeo
     repeatButton.addEventListener('click', repeatVideo);
