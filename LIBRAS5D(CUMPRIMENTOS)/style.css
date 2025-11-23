@@ -1,0 +1,288 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilos Gerais */
+body {
+    font-family: "Poppins", Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #e9f5f2; 
+    overflow: hidden;
+    position: relative;
+}
+
+/* Padrão de fundo sutil (Rede de pontos) */
+
+h1 {
+  margin-bottom: 20px;
+  color: #1a7a6d; /* Cor dos títulos */
+  font-size: 2.1em; /* Aumenta o tamanho do título */
+  font-weight: 600; /* Peso do texto */
+}
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:  #e9f5f2;
+    pointer-events: none;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+/* Topo da Página: Pontos, Nível e Barra de Progresso */
+.header-game {
+    display: flex ;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 20px;
+    background-color: #66C9B2;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    margin-bottom: 20px;
+}
+
+.points-info {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #ffd700; /* Cor de destaque para pontos (Amarelo/Ouro) */
+}
+
+.level-info {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #f0f0f0;
+}
+
+.progress-bar-container {
+    width: 150px;
+    height: 15px;
+    background-color: #e9f5f2;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.progress-bar-fill {
+    /* Gradiente verde vibrante para a barra de progresso */
+    width: 40%; /* Ajuste com JS */
+    height: 100%;
+    background: linear-gradient(90deg, #63f7b0 0%, #2ecc71 100%); 
+    border-radius: 7px;
+    transition: width 0.5s ease-in-out;
+}
+
+.app-title {
+    position: absolute;
+    top: 20px;
+    color: #1a7a6d;
+    font-size: 1.2em;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Cartão Principal do Sinal */
+.card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 350px; 
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-inner-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gradiente suave dentro do cartão */
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(240,248,255,1) 100%); 
+    z-index: 0;
+    border-radius: 20px;
+}
+
+.card-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.title-banner {
+    /* Gradiente Amarelo/Laranja para o Sol/Destaque */
+    background: #4ad0a0;
+    color: #fff; /* Texto escuro no banner claro */
+    padding: 10px 100px;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    position: relative;
+    transform: translateY(-10px);
+}
+
+.title-banner::before, .title-banner::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    bottom: -10px;
+}
+
+.title-banner::before {
+    left: 15px;
+    border-width: 10px 0 0 10px;
+    border-color: transparent transparent transparent #ffa500;
+}
+
+.title-banner::after {
+    right: 15px;
+    border-width: 10px 10px 0 0;
+    border-color: transparent #ffa500 transparent transparent;
+}
+
+
+.avatar-area {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    
+}
+
+.avatar-img {
+    width: 200px; 
+    height: auto;
+    border-radius: 20px;
+    border: 2px solid #8b8686;
+}
+
+.repeat-button {
+    /* Cor do botão de repetição: Roxo Escuro */
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #4ad0a0;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.repeat-button:hover {
+    transform: scale(1.13);
+    background-color: #47927e;
+}
+
+.meaning-section {
+    background-color: #e9f5f2;
+    padding: 15px 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    width: calc(100% - 40px); 
+    text-align: justify;
+}
+
+.meaning-section h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+.meaning-text {
+    color: #555;
+    font-size: 0.95em;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.meaning-text .emoji-icon {
+    font-size: 1.2em;
+}
+
+/*ALTEREI ESSA AQUI -- BOTÃO PRÓXIMO SINAL*/
+
+.next-signal-button {
+    /* Gradiente suave baseado no tom #37afe5 */
+    background: #4ad0a0;
+    color: #fff;
+
+    padding: 15px 30px;
+    border: none;
+    border-radius: 28px;
+
+    font-size: 1.1em;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 
+        transform 0.18s ease, 
+        box-shadow 0.18s ease, 
+        background 0.25s ease;
+
+    /* Sombra mais suave e limpa — padrão UX moderno */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    width: 80%;
+    max-width: 250px;
+}
+
+.next-signal-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    background: #47927e;
+}
+
+.next-signal-button:active {
+    transform: translateY(0);
+    box-shadow: #47927e;
+}
