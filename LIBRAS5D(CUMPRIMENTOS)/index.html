@@ -8,36 +8,100 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Botão para abrir menu lateral -->
+    <button class="menu-toggle" aria-label="Abrir menu de sinais" title="Menu de sinais (M)">
+        ☰
+    </button>
+
+    <!-- Menu lateral com lista de sinais -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Lista de Sinais</h2>
+            <button class="sidebar-close" aria-label="Fechar menu">×</button>
+        </div>
+        <div class="sidebar-content">
+            <ul class="signals-list" id="signalsList" role="list">
+                <!-- Preenchido via JavaScript -->
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <button class="random-mode-button" id="randomModeButton" aria-label="Ativar modo de prática aleatória">
+                🎲 Modo Aleatório
+            </button>
+        </div>
+    </div>
+
+    <!-- Overlay para fechar menu -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <div class="app-title"><h1>APRENDA LIBRAS — CUMPRIMENTOS</h1></div>
 
     <div class="container">
         <div class="header-game">
             <div class="level-info">NÍVEL 1: CUMPRIMENTOS</div>
-            <div class="progress-bar-container">
-                <div class="progress-bar-fill" style="width: 7.14%;"></div> 
+            <div class="signal-counter" id="signalCounter">Sinal 1 de 14</div>
+            <div class="progress-info">
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progressBarFill" style="width: 7.14%;"></div> 
+                </div>
+                <span class="progress-percentage" id="progressPercentage">7%</span>
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" id="card">
             <div class="card-inner-gradient"></div> 
             <div class="card-content">
                 <div class="card-header">
-                    <div class="title-banner">BOM DIA</div>
+                    <div class="title-banner" id="titleBanner">BOM DIA</div>
                 </div>
 
                 <div class="avatar-area">
-                    <video src="CUMPRIMENTOS/1_BOM_DIA.mp4" alt="Avatar fazendo o sinal de Bom Dia" class="avatar-img" autoplay muted loop></video>
-                    <button class="repeat-button">↻</button>
+                    <video src="CUMPRIMENTOS/1_BOM_DIA.mp4" alt="Avatar fazendo o sinal de Bom Dia" class="avatar-img" id="avatarVideo" autoplay muted loop></video>
+                    <div class="video-controls">
+                        <button class="play-pause-button" id="playPauseButton" aria-label="Pausar vídeo" title="Pausar/Reproduzir (Espaço)">⏸</button>
+                        <button class="repeat-button" id="repeatButton" aria-label="Repetir vídeo" title="Repetir (R)">↻</button>
+                        <div class="speed-control">
+                            <button class="speed-button" id="speedButton" aria-label="Velocidade do vídeo" title="Velocidade">1x</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="meaning-section">
                     <h3>CONTEXTO DE USO:</h3>
-                    <p class="meaning-text">Usado para cumprimentar alguém pela manhã</p>
+                    <p class="meaning-text" id="meaningText">Usado para cumprimentar alguém pela manhã</p>
                 </div>
 
-                <button class="next-signal-button">PRÓXIMO SINAL</button>
+                <div class="navigation-buttons">
+                    <button class="prev-signal-button" id="prevSignalButton" aria-label="Sinal anterior" title="Anterior (←)">← ANTERIOR</button>
+                    <button class="next-signal-button" id="nextSignalButton" aria-label="Próximo sinal" title="Próximo (→ ou Enter)">PRÓXIMO SINAL →</button>
+                </div>
             </div>
         </div>
+    </div>
+
+    <!-- Modal de Conclusão -->
+    <div class="modal-overlay" id="completionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🎉 Parabéns!</h2>
+            </div>
+            <div class="modal-body">
+                <p>Você completou todos os <strong id="totalSignalsCompleted">14</strong> sinais de cumprimentos!</p>
+                <p class="modal-subtitle">Continue praticando para melhorar ainda mais!</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button restart-button" id="restartButton">🔄 Reiniciar</button>
+                <button class="modal-button random-button" id="randomPracticeButton">🎲 Prática Aleatória</button>
+                <button class="modal-button close-modal-button" id="closeModalButton">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dica de atalhos de teclado -->
+    <div class="keyboard-hints" id="keyboardHints">
+        <div class="hint-item">← → Navegar</div>
+        <div class="hint-item">Espaço Repetir</div>
+        <div class="hint-item">M Menu</div>
     </div>
 
     <script src="script.js"></script>
