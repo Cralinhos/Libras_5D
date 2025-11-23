@@ -9,44 +9,19 @@
 </head>
 <body>
     <!-- ============================================
-        DOCUMENTAÇÃO: Header do Jogo
-        - Sistema de pontos no topo
-        - Barra de progresso visual melhorada
-        - Contador de sinais com badge
+        DOCUMENTAÇÃO: Barra de Progresso Compacta
+        - Barra menor e mais discreta
+        - Posicionada acima do card principal
     ============================================ -->
-    <header class="game-header">
-        <div class="header-top">
-            <button class="menu-toggle" aria-label="Abrir menu de sinais" title="Menu (M)">
-                <span class="menu-icon">☰</span>
-            </button>
-            
-            <div class="game-stats">
-                <div class="stat-item points-display">
-                    <span class="stat-icon">⭐</span>
-                    <span class="stat-value" id="pointsDisplay">0</span>
-                    <span class="stat-label">Pontos</span>
-                </div>
-                <div class="stat-item level-badge">
-                    <span class="stat-icon">🎯</span>
-                    <span class="stat-value">Nível 1</span>
-                </div>
+    <div class="compact-progress">
+        <div class="progress-bar-compact">
+            <div class="progress-bar-track-compact">
+                <div class="progress-bar-fill-compact" id="progressBarFill"></div>
             </div>
+            <span class="progress-text-compact" id="progressText">1/14</span>
+            <span class="progress-percentage-compact" id="progressPercentage">7%</span>
         </div>
-
-        <div class="progress-section">
-            <div class="progress-header">
-                <span class="progress-label">Progresso</span>
-                <span class="progress-text" id="progressText">1/14</span>
-            </div>
-            <div class="progress-bar-wrapper">
-                <div class="progress-bar-track">
-                    <div class="progress-bar-fill" id="progressBarFill"></div>
-                    <div class="progress-glow" id="progressGlow"></div>
-                </div>
-                <div class="progress-percentage" id="progressPercentage">7%</div>
-            </div>
-        </div>
-    </header>
+    </div>
 
     <!-- ============================================
         DOCUMENTAÇÃO: Menu Lateral
@@ -73,11 +48,20 @@
 
     <!-- ============================================
         DOCUMENTAÇÃO: Área Principal do Jogo
+        - Layout horizontal com elementos laterais
         - Card centralizado com design moderno
-        - Área de vídeo com controles flutuantes
-        - Botões de ação grandes e intuitivos
+        - Menu e stats nas laterais
     ============================================ -->
-    <main class="game-container">
+    <main class="game-wrapper">
+        <!-- Menu Hamburger Lateral Esquerdo -->
+        <aside class="left-sidebar">
+            <button class="menu-toggle" aria-label="Abrir menu de sinais" title="Menu (M)">
+                <span class="menu-icon">☰</span>
+            </button>
+        </aside>
+
+        <!-- Container Principal do Jogo -->
+        <div class="game-container">
         <div class="card" id="card">
             <!-- Badge de número do sinal -->
             <div class="signal-badge" id="signalBadge">
@@ -142,9 +126,30 @@
             </div>
         </div>
 
-        <!-- Indicadores de progresso visual (bolinhas) -->
-        <div class="progress-dots" id="progressDots"></div>
+        </div>
+
+        <!-- Stats Lateral Direito -->
+        <aside class="right-sidebar">
+            <div class="game-stats-vertical">
+                <div class="stat-item-vertical points-display">
+                    <span class="stat-icon">⭐</span>
+                    <div class="stat-content">
+                        <span class="stat-value" id="pointsDisplay">0</span>
+                        <span class="stat-label">Pontos</span>
+                    </div>
+                </div>
+                <div class="stat-item-vertical level-badge">
+                    <span class="stat-icon">🎯</span>
+                    <div class="stat-content">
+                        <span class="stat-value">Nível 1</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
     </main>
+
+    <!-- Indicadores de progresso visual (bolinhas) -->
+    <div class="progress-dots" id="progressDots"></div>
 
     <!-- ============================================
         DOCUMENTAÇÃO: Modal de Conclusão Gamificado

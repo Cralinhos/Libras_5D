@@ -56,24 +56,90 @@ body {
 }
 
 /* ============================================
-   DOCUMENTAÇÃO: HEADER DO JOGO
-   - Layout flexível com stats e progresso
-   - Design moderno e compacto
-   - Responsivo
+   DOCUMENTAÇÃO: BARRA DE PROGRESSO COMPACTA
+   - Barra menor e mais discreta
+   - Posicionada acima do conteúdo principal
    ============================================ */
-.game-header {
+.compact-progress {
     width: 100%;
-    max-width: 800px;
-    margin-bottom: 30px;
+    max-width: 1200px;
+    margin-bottom: 20px;
     z-index: 100;
 }
 
-.header-top {
+.progress-bar-compact {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    gap: 12px;
+    background: var(--color-white);
+    padding: 12px 20px;
+    border-radius: 15px;
+    box-shadow: var(--shadow-sm);
+}
+
+.progress-bar-track-compact {
+    flex: 1;
+    height: 12px;
+    background: var(--color-background);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar-fill-compact {
+    height: 100%;
+    width: 7.14%;
+    background: linear-gradient(90deg, var(--color-progress-start) 0%, var(--color-progress-end) 100%);
+    border-radius: 10px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px rgba(46, 204, 113, 0.4);
+}
+
+.progress-text-compact {
+    font-weight: 700;
+    color: var(--color-primary-darker);
+    font-size: 0.95em;
+    min-width: 45px;
+    text-align: center;
+}
+
+.progress-percentage-compact {
+    font-weight: 700;
+    color: var(--color-primary-darker);
+    font-size: 0.95em;
+    min-width: 35px;
+    text-align: right;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: WRAPPER PRINCIPAL HORIZONTAL
+   - Layout horizontal com elementos laterais
+   - Menu à esquerda, stats à direita
+   ============================================ */
+.game-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: SIDEBARS LATERAIS
+   - Menu hamburger à esquerda
+   - Stats à direita
+   ============================================ */
+.left-sidebar,
+.right-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 15px;
+    position: sticky;
+    top: 20px;
 }
 
 .menu-toggle {
@@ -81,8 +147,8 @@ body {
     color: var(--color-white);
     border: none;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     font-size: 1.5em;
     cursor: pointer;
     box-shadow: var(--shadow-md);
@@ -91,6 +157,7 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    flex-shrink: 0;
 }
 
 .menu-toggle:hover {
@@ -99,151 +166,79 @@ body {
     box-shadow: var(--shadow-lg);
 }
 
-.game-stats {
+.game-stats-vertical {
     display: flex;
+    flex-direction: column;
     gap: 15px;
-    flex: 1;
-    justify-content: flex-end;
+    min-width: 120px;
 }
 
-.stat-item {
+.stat-item-vertical {
     background: var(--color-white);
-    padding: 12px 20px;
+    padding: 15px;
     border-radius: 15px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 8px;
     box-shadow: var(--shadow-sm);
     transition: var(--transition);
+    text-align: center;
 }
 
-.stat-item:hover {
+.stat-item-vertical:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
 
-.stat-icon {
-    font-size: 1.3em;
+.stat-item-vertical .stat-icon {
+    font-size: 1.8em;
 }
 
-.stat-value {
+.stat-item-vertical .stat-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.stat-item-vertical .stat-value {
     font-weight: 700;
-    font-size: 1.1em;
+    font-size: 1.2em;
     color: var(--color-primary-darker);
 }
 
-.stat-label {
-    font-size: 0.85em;
+.stat-item-vertical .stat-label {
+    font-size: 0.8em;
     color: var(--color-text-light);
 }
 
-.points-display {
+.stat-item-vertical.points-display {
     background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+}
+
+.stat-item-vertical.points-display .stat-value {
     color: var(--color-text);
 }
 
-.points-display .stat-value {
-    color: var(--color-text);
-}
-
-.level-badge {
+.stat-item-vertical.level-badge {
     background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+}
+
+.stat-item-vertical.level-badge .stat-value {
     color: var(--color-white);
 }
 
-.level-badge .stat-value {
-    color: var(--color-white);
-}
 
-/* ============================================
-   DOCUMENTAÇÃO: BARRA DE PROGRESSO
-   - Design moderno com efeito glow
-   - Animação suave
-   - Informações claras
-   ============================================ */
-.progress-section {
-    background: var(--color-white);
-    padding: 20px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
-}
-
-.progress-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.progress-label {
-    font-weight: 600;
-    color: var(--color-text);
-    font-size: 0.95em;
-}
-
-.progress-text {
-    font-weight: 700;
-    color: var(--color-primary-darker);
-    font-size: 1em;
-}
-
-.progress-bar-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.progress-bar-track {
-    flex: 1;
-    height: 20px;
-    background: var(--color-background);
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.progress-bar-fill {
-    height: 100%;
-    width: 7.14%;
-    background: linear-gradient(90deg, var(--color-progress-start) 0%, var(--color-progress-end) 100%);
-    border-radius: 10px;
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
-}
-
-.progress-glow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
-    animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
-.progress-percentage {
-    font-weight: 700;
-    color: var(--color-primary-darker);
-    font-size: 1em;
-    min-width: 40px;
-    text-align: right;
-}
 
 /* ============================================
    DOCUMENTAÇÃO: CONTAINER PRINCIPAL
    - Centralizado e responsivo
-   - Espaçamento adequado
+   - Layout horizontal otimizado
    ============================================ */
 .game-container {
-    width: 100%;
-    max-width: 600px;
+    flex: 1;
+    max-width: 700px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -987,18 +982,47 @@ kbd {
    - Adaptação para mobile
    - Layout flexível
    ============================================ */
-@media (max-width: 768px) {
-    .game-header {
-        margin-bottom: 20px;
+@media (max-width: 1024px) {
+    .game-wrapper {
+        flex-direction: column;
+        align-items: center;
     }
 
-    .header-top {
-        flex-wrap: wrap;
-    }
-
-    .game-stats {
+    .left-sidebar,
+    .right-sidebar {
+        position: static;
+        flex-direction: row;
         width: 100%;
         justify-content: space-between;
+    }
+
+    .game-stats-vertical {
+        flex-direction: row;
+        min-width: auto;
+    }
+
+    .stat-item-vertical {
+        flex-direction: row;
+        padding: 12px 20px;
+    }
+
+    .menu-toggle {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .compact-progress {
+        margin-bottom: 15px;
+    }
+
+    .progress-bar-compact {
+        padding: 10px 15px;
+    }
+
+    .progress-bar-track-compact {
+        height: 10px;
     }
 
     .card {
@@ -1020,6 +1044,20 @@ kbd {
     .sidebar {
         width: 280px;
         left: -280px;
+    }
+
+    .left-sidebar,
+    .right-sidebar {
+        gap: 10px;
+    }
+
+    .game-stats-vertical {
+        gap: 10px;
+    }
+
+    .stat-item-vertical {
+        padding: 10px 15px;
+        font-size: 0.9em;
     }
 }
 

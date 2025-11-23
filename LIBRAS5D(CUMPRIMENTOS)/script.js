@@ -32,7 +32,6 @@ const playPauseButton = document.getElementById('playPauseButton');
 const speedButton = document.getElementById('speedButton');
 const avatarVideo = document.getElementById('avatarVideo');
 const progressBarFill = document.getElementById('progressBarFill');
-const progressGlow = document.getElementById('progressGlow');
 const progressPercentage = document.getElementById('progressPercentage');
 const progressText = document.getElementById('progressText');
 const pointsDisplay = document.getElementById('pointsDisplay');
@@ -183,7 +182,6 @@ function updateProgressDots() {
 function updateProgress() {
     const progress = ((currentSignalIndex + 1) / totalSignals) * 100;
     progressBarFill.style.width = `${progress}%`;
-    progressGlow.style.width = `${progress}%`;
     progressPercentage.textContent = `${Math.round(progress)}%`;
     progressText.textContent = `${currentSignalIndex + 1}/${totalSignals}`;
     badgeNumber.textContent = currentSignalIndex + 1;
