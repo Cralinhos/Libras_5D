@@ -245,7 +245,11 @@ function updateProgress() {
    - Atualiza todos os elementos visuais
    ============================================ */
 function loadSignal(index, skipAnimation = false) {
-    if (index < 0 || index >= totalSignals) return;
+    if (index < 0 || index >= totalSignals) {
+        // Libera flag se índice inválido
+        isNavigating = false;
+        return;
+    }
     
     if (!skipAnimation) {
         // Animação de transição
@@ -257,9 +261,17 @@ function loadSignal(index, skipAnimation = false) {
             card.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
             card.style.opacity = '1';
             card.style.transform = 'translateY(0) scale(1)';
-        }, 200);
+            
+            // Libera flag após a transição completar (400ms da animação + pequena margem)
+            // Reduzido para permitir navegação mais rápida, mas ainda previne spam
+            setTimeout(() => {
+                isNavigating = false;
+            }, 400);
+        }, 100);
     } else {
         updateSignalContent(index);
+        // Libera flag imediatamente se não houver animação
+        isNavigating = false;
     }
 }
 
@@ -316,9 +328,8 @@ function updateSignalContent(index) {
    - Proteção robusta contra spam de teclas
    ============================================ */
 function nextSignal() {
-    // PROTEÇÃO 1: Previne múltiplas chamadas simultâneas
+    // PROTEÇÃO 1: Previne múltiplas chamadas simultâneas (apenas durante transição)
     if (isNavigating) {
-        console.log('Navegação já em andamento, ignorando...');
         return;
     }
     
@@ -338,8 +349,6 @@ function nextSignal() {
         // Adiciona pontos com o índice específico para garantir unicidade
         addPoints(10, signalIndexToComplete);
         updateProgressDots();
-    } else {
-        console.log(`Sinal ${signalIndexToComplete} já foi completado, pulando adição de pontos`);
     }
     
     // Navega para o próximo sinal
@@ -356,12 +365,9 @@ function nextSignal() {
             addPoints(50, 'bonus'); // Bônus de 50 pontos
         }
         showCompletionModal();
-    }
-    
-    // Libera a flag após um delay maior
-    setTimeout(() => {
+        // Libera flag imediatamente se for modal (não precisa esperar transição)
         isNavigating = false;
-    }, 1000);
+    }
 }
 
 function prevSignal() {
@@ -373,11 +379,7 @@ function prevSignal() {
     if (currentSignalIndex > 0) {
         isNavigating = true;
         loadSignal(currentSignalIndex - 1);
-        
-        // Libera a flag após um pequeno delay
-        setTimeout(() => {
-            isNavigating = false;
-        }, 500);
+        // Flag será liberada quando loadSignal completar (no updateSignalContent)
     }
 }
 
