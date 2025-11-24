@@ -1837,18 +1837,19 @@ video:focus {
 .game-videos-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 10px;
     margin-bottom: 25px;
 }
 
 .level2-video-wrapper {
     position: relative;
-    border-radius: 20px;
+    border-radius: 15px;
     overflow: hidden;
     cursor: pointer;
     transition: var(--transition);
-    border: 4px solid transparent;
+    border: 2px solid transparent;
     background: linear-gradient(135deg, #d4e8e1 0%, #c4d8d1 100%);
+    padding: 5px;
 }
 
 .level2-video-wrapper:hover:not(.correct-video):not(.wrong-video) {
@@ -1860,8 +1861,8 @@ video:focus {
 .level2-video {
     width: 100%;
     height: auto;
-    min-height: 300px;
-    max-height: 400px;
+    min-height: 400px;
+    max-height: 550px;
     object-fit: contain;
     display: block;
 }
@@ -1948,10 +1949,15 @@ video:focus {
     
     .game-videos-container {
         grid-template-columns: 1fr;
+        gap: 8px;
     }
     
     .level2-video {
-        min-height: 250px;
-        max-height: 300px;
+        min-height: 300px;
+        max-height: 400px;
+    }
+    
+    .level2-video-wrapper {
+        padding: 3px;
     }
 }
