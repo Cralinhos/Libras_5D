@@ -730,6 +730,16 @@ function startGame() {
     // Fecha o menu lateral se estiver aberto
     closeSidebar();
     
+    // Restaura o botão de próxima pergunta original
+    const gameActions = document.querySelector('.game-actions');
+    gameActions.innerHTML = '<button class="game-action-btn next-question-btn" id="nextQuestionButton" style="display: none;"><span>Próxima Pergunta →</span></button>';
+    
+    // Reconecta o event listener ao botão recriado
+    const restoredNextButton = document.getElementById('nextQuestionButton');
+    if (restoredNextButton) {
+        restoredNextButton.addEventListener('click', nextGameQuestion);
+    }
+    
     // Carrega a primeira pergunta
     loadGameQuestion();
     updateGameScore();
@@ -768,13 +778,17 @@ function loadGameQuestion() {
     
     // Esconde feedback e botão de próxima pergunta
     gameFeedback.style.display = 'none';
-    nextQuestionButton.style.display = 'none';
+    const nextBtn = document.getElementById('nextQuestionButton');
+    if (nextBtn) {
+        nextBtn.style.display = 'none';
+        nextBtn.innerHTML = '<span>Próxima Pergunta →</span>';
+    }
     
-    // Habilita os botões de opção
+    // Habilita os botões de opção e remove classes de estado
     const optionButtons = gameOptions.querySelectorAll('.game-option-btn');
     optionButtons.forEach(btn => {
         btn.disabled = false;
-        btn.classList.remove('correct', 'incorrect');
+        btn.classList.remove('correct', 'incorrect', 'wrong-gray', 'correct-animated');
     });
 }
 
@@ -800,13 +814,30 @@ function generateGameOptions(correctIndex) {
     // Limpa opções anteriores
     gameOptions.innerHTML = '';
     
+    // Cores para cada botão: verde, azul, laranja, vermelho
+    const buttonColors = ['option-green', 'option-blue', 'option-orange', 'option-red'];
+    // Letras para cada alternativa
+    const optionLetters = ['A', 'B', 'C', 'D'];
+    
     // Cria botões para cada opção
     allOptions.forEach((optionIndex, buttonIndex) => {
         const signal = signals[optionIndex];
         const button = document.createElement('button');
-        button.className = 'game-option-btn';
-        button.textContent = signal.title;
+        button.className = `game-option-btn ${buttonColors[buttonIndex]}`;
         button.setAttribute('data-index', optionIndex);
+        button.setAttribute('data-letter', optionLetters[buttonIndex]);
+        
+        // Cria estrutura com letra e texto
+        const letterSpan = document.createElement('span');
+        letterSpan.className = 'option-letter';
+        letterSpan.textContent = optionLetters[buttonIndex];
+        
+        const textSpan = document.createElement('span');
+        textSpan.className = 'option-text';
+        textSpan.textContent = signal.title;
+        
+        button.appendChild(letterSpan);
+        button.appendChild(textSpan);
         button.addEventListener('click', () => handleGameAnswer(optionIndex));
         gameOptions.appendChild(button);
     });
@@ -826,8 +857,20 @@ function handleGameAnswer(selectedIndex) {
         
         if (btnIndex === currentCorrectAnswer) {
             btn.classList.add('correct');
-        } else if (btnIndex === selectedIndex && !isCorrect) {
-            btn.classList.add('incorrect');
+            btn.classList.add('correct-animated');
+        } else {
+            // Todas as alternativas erradas ficam cinzas
+            if (btnIndex === selectedIndex && !isCorrect) {
+                // Primeiro adiciona a animação de erro
+                btn.classList.add('incorrect');
+                // Depois de 0.5s (duração da animação), adiciona cinza
+                setTimeout(() => {
+                    btn.classList.add('wrong-gray');
+                }, 500);
+            } else {
+                // Alternativas não selecionadas ficam cinzas imediatamente
+                btn.classList.add('wrong-gray');
+            }
         }
     });
     
@@ -844,11 +887,15 @@ function handleGameAnswer(selectedIndex) {
     updateGameScore();
     
     // Mostra botão para próxima pergunta
-    if (currentGameQuestion < gameQuestions.length - 1) {
-        nextQuestionButton.style.display = 'block';
-    } else {
-        nextQuestionButton.textContent = 'Ver Resultado Final';
-        nextQuestionButton.style.display = 'block';
+    const nextBtn = document.getElementById('nextQuestionButton');
+    if (nextBtn) {
+        if (currentGameQuestion < gameQuestions.length - 1) {
+            nextBtn.innerHTML = '<span>Próxima Pergunta →</span>';
+            nextBtn.style.display = 'block';
+        } else {
+            nextBtn.innerHTML = '<span>Ver Resultado Final</span>';
+            nextBtn.style.display = 'block';
+        }
     }
 }
 
@@ -890,7 +937,10 @@ function endGame() {
     showGameFeedback(`${message}<br><br>Pontuação Final: ${gameScore}/${gameQuestions.length * 10} (${percentage}%)`, 'final');
     
     // Esconde botão de próxima pergunta e mostra botão de reiniciar
-    nextQuestionButton.style.display = 'none';
+    const nextBtn = document.getElementById('nextQuestionButton');
+    if (nextBtn) {
+        nextBtn.style.display = 'none';
+    }
     
     const restartButton = document.createElement('button');
     restartButton.className = 'game-action-btn restart-game-btn';
@@ -968,9 +1018,8 @@ function setupEventListeners() {
     if (closeGameButton) {
         closeGameButton.addEventListener('click', closeGame);
     }
-    if (nextQuestionButton) {
-        nextQuestionButton.addEventListener('click', nextGameQuestion);
-    }
+    // Event listener do botão de próxima pergunta é adicionado dinamicamente
+    // quando o botão é recriado em startGame()
 }
 
 /* ============================================

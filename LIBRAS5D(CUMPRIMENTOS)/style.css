@@ -1393,48 +1393,225 @@ video:focus {
 
 .game-option-btn {
     padding: 20px 25px;
-    background: linear-gradient(135deg, var(--color-background) 0%, #d4e8e1 100%);
-    border: 3px solid var(--color-primary);
+    border: 3px solid;
     border-radius: 15px;
     font-size: 1.2em;
     font-weight: 600;
-    color: var(--color-primary-darker);
+    color: var(--color-white);
     cursor: pointer;
     transition: var(--transition);
     box-shadow: var(--shadow-sm);
     text-align: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.option-letter {
+    font-size: 1.5em;
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.25);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    flex-shrink: 0;
+    transition: var(--transition);
+    backdrop-filter: blur(5px);
+}
+
+.game-option-btn:hover:not(:disabled) .option-letter {
+    background: rgba(255, 255, 255, 0.35);
+    border-color: rgba(255, 255, 255, 0.7);
+    transform: scale(1.1);
+}
+
+.game-option-btn.correct .option-letter {
+    background: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.game-option-btn.wrong-gray .option-letter {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    opacity: 0.6;
+}
+
+.option-text {
+    flex: 1;
+    text-align: left;
+}
+
+/* Cores dos botões: verde, azul, laranja, vermelho */
+.game-option-btn.option-green {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    border-color: #27ae60;
+}
+
+.game-option-btn.option-blue {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    border-color: #2980b9;
+}
+
+.game-option-btn.option-orange {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    border-color: #e67e22;
+}
+
+.game-option-btn.option-red {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    border-color: #c0392b;
 }
 
 .game-option-btn:hover:not(:disabled) {
     transform: translateY(-3px);
     box-shadow: var(--shadow-md);
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-    color: var(--color-white);
-    border-color: var(--color-primary-dark);
+    filter: brightness(1.1);
 }
 
 .game-option-btn:disabled {
     cursor: not-allowed;
-    opacity: 0.8;
 }
 
-.game-option-btn.correct {
-    background: linear-gradient(135deg, var(--color-success) 0%, #27ae60 100%);
-    color: var(--color-white);
-    border-color: var(--color-success);
-    animation: correctPulse 0.5s ease-out;
+/* Alternativas erradas ficam cinzas */
+.game-option-btn.wrong-gray {
+    background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%) !important;
+    border-color: #7f8c8d !important;
+    opacity: 0.6;
+    filter: grayscale(0.5);
 }
 
+/* Alternativa incorreta selecionada (mantém vermelho, mas depois fica cinza) */
 .game-option-btn.incorrect {
-    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-    color: var(--color-white);
-    border-color: #e74c3c;
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%) !important;
+    border-color: #e74c3c !important;
     animation: incorrectShake 0.5s ease-out;
 }
 
-@keyframes correctPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+/* Alternativa correta com animação - mantém a cor original */
+.game-option-btn.correct {
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+/* Animação para alternativa correta - adapta a cor do brilho à cor do botão */
+.game-option-btn.correct-animated {
+    animation: correctSuccess 0.8s ease-out;
+}
+
+/* Brilho verde para botão verde correto */
+.game-option-btn.option-green.correct {
+    box-shadow: 0 0 20px rgba(46, 204, 113, 0.6);
+}
+
+.game-option-btn.option-green.correct-animated {
+    animation: correctSuccessGreen 0.8s ease-out;
+}
+
+/* Brilho azul para botão azul correto */
+.game-option-btn.option-blue.correct {
+    box-shadow: 0 0 20px rgba(52, 152, 219, 0.6);
+}
+
+.game-option-btn.option-blue.correct-animated {
+    animation: correctSuccessBlue 0.8s ease-out;
+}
+
+/* Brilho laranja para botão laranja correto */
+.game-option-btn.option-orange.correct {
+    box-shadow: 0 0 20px rgba(243, 156, 18, 0.6);
+}
+
+.game-option-btn.option-orange.correct-animated {
+    animation: correctSuccessOrange 0.8s ease-out;
+}
+
+/* Brilho vermelho para botão vermelho correto */
+.game-option-btn.option-red.correct {
+    box-shadow: 0 0 20px rgba(231, 76, 60, 0.6);
+}
+
+.game-option-btn.option-red.correct-animated {
+    animation: correctSuccessRed 0.8s ease-out;
+}
+
+@keyframes correctSuccess {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.08);
+    }
+    100% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes correctSuccessGreen {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(46, 204, 113, 0.6);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 30px rgba(46, 204, 113, 0.9);
+    }
+    100% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(46, 204, 113, 0.6);
+    }
+}
+
+@keyframes correctSuccessBlue {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(52, 152, 219, 0.6);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 30px rgba(52, 152, 219, 0.9);
+    }
+    100% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(52, 152, 219, 0.6);
+    }
+}
+
+@keyframes correctSuccessOrange {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(243, 156, 18, 0.6);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 30px rgba(243, 156, 18, 0.9);
+    }
+    100% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(243, 156, 18, 0.6);
+    }
+}
+
+@keyframes correctSuccessRed {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(231, 76, 60, 0.6);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 30px rgba(231, 76, 60, 0.9);
+    }
+    100% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(231, 76, 60, 0.6);
+    }
 }
 
 @keyframes incorrectShake {
