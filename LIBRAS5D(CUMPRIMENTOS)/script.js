@@ -66,6 +66,14 @@ const gameProgressFill = document.getElementById('gameProgressFill');
 const gameProgressText = document.getElementById('gameProgressText');
 const gameScoreText = document.getElementById('gameScoreText');
 const gameCard = document.getElementById('gameCard');
+const gameLevel1 = document.getElementById('gameLevel1');
+const gameLevel2 = document.getElementById('gameLevel2');
+const gameVideosContainer = document.getElementById('gameVideosContainer');
+const level2Question = document.getElementById('level2Question');
+const level2SignalName = document.getElementById('level2SignalName');
+const levelSelectorModal = document.getElementById('levelSelectorModal');
+const closeLevelSelectorButton = document.getElementById('closeLevelSelectorButton');
+const currentLevelBadge = document.getElementById('currentLevelBadge');
 
 // Elementos do modal
 const completionModal = document.getElementById('completionModal');
@@ -96,6 +104,7 @@ let gameScore = 0;
 let gameQuestions = []; // Array com ordem das perguntas
 let currentCorrectAnswer = null;
 let gameAnswered = false;
+let currentGameLevel = 1; // 1 = 4 alternativas, 2 = 2 vídeos
 
 // Velocidades disponíveis para o vídeo
 const playbackRates = [0.5, 0.75, 1, 1.25, 1.5, 2];
@@ -712,6 +721,12 @@ function setupKeyboardShortcuts() {
    - Controla progresso e pontuação
    ============================================ */
 function startGame() {
+    // Mostra o seletor de nível
+    levelSelectorModal.style.display = 'flex';
+}
+
+function startGameWithLevel(level) {
+    currentGameLevel = level;
     gameMode = true;
     currentGameQuestion = 0;
     gameScore = 0;
@@ -721,11 +736,26 @@ function startGame() {
     gameQuestions = [...Array(signals.length).keys()];
     shuffleArray(gameQuestions);
     
-    // Esconde a seção principal e mostra o jogo
+    // Esconde o seletor de nível e a seção principal, mostra o jogo
+    levelSelectorModal.style.display = 'none';
     document.querySelector('.game-wrapper').style.display = 'none';
     document.querySelector('.compact-progress').style.display = 'none';
     document.querySelector('.progress-dots').style.display = 'none';
     gameSection.style.display = 'block';
+    
+    // Atualiza badge do nível
+    if (currentLevelBadge) {
+        currentLevelBadge.textContent = `Nível ${level}`;
+    }
+    
+    // Mostra/esconde os níveis apropriados
+    if (level === 1) {
+        gameLevel1.style.display = 'block';
+        gameLevel2.style.display = 'none';
+    } else {
+        gameLevel1.style.display = 'none';
+        gameLevel2.style.display = 'block';
+    }
     
     // Fecha o menu lateral se estiver aberto
     closeSidebar();
@@ -759,6 +789,26 @@ function loadGameQuestion() {
     }
     
     gameAnswered = false;
+    
+    if (currentGameLevel === 1) {
+        loadLevel1Question();
+    } else {
+        loadLevel2Question();
+    }
+    
+    // Atualiza progresso
+    updateGameProgress();
+    
+    // Esconde feedback e botão de próxima pergunta
+    gameFeedback.style.display = 'none';
+    const nextBtn = document.getElementById('nextQuestionButton');
+    if (nextBtn) {
+        nextBtn.style.display = 'none';
+        nextBtn.innerHTML = '<span>Próxima Pergunta →</span>';
+    }
+}
+
+function loadLevel1Question() {
     const questionIndex = gameQuestions[currentGameQuestion];
     const correctSignal = signals[questionIndex];
     
@@ -773,23 +823,26 @@ function loadGameQuestion() {
     // Gera as alternativas
     generateGameOptions(questionIndex);
     
-    // Atualiza progresso
-    updateGameProgress();
-    
-    // Esconde feedback e botão de próxima pergunta
-    gameFeedback.style.display = 'none';
-    const nextBtn = document.getElementById('nextQuestionButton');
-    if (nextBtn) {
-        nextBtn.style.display = 'none';
-        nextBtn.innerHTML = '<span>Próxima Pergunta →</span>';
-    }
-    
     // Habilita os botões de opção e remove classes de estado
     const optionButtons = gameOptions.querySelectorAll('.game-option-btn');
     optionButtons.forEach(btn => {
         btn.disabled = false;
         btn.classList.remove('correct', 'incorrect', 'wrong-gray', 'correct-animated');
     });
+}
+
+function loadLevel2Question() {
+    const questionIndex = gameQuestions[currentGameQuestion];
+    const correctSignal = signals[questionIndex];
+    
+    // Define a resposta correta
+    currentCorrectAnswer = questionIndex;
+    
+    // Atualiza a pergunta
+    level2SignalName.textContent = correctSignal.title;
+    
+    // Gera os 2 vídeos (1 correto + 1 incorreto)
+    generateLevel2Videos(questionIndex);
 }
 
 function generateGameOptions(correctIndex) {
@@ -841,6 +894,100 @@ function generateGameOptions(correctIndex) {
         button.addEventListener('click', () => handleGameAnswer(optionIndex));
         gameOptions.appendChild(button);
     });
+}
+
+function generateLevel2Videos(correctIndex) {
+    // Cria array com índices de todos os sinais exceto o correto
+    const otherIndices = signals
+        .map((_, index) => index)
+        .filter(index => index !== correctIndex);
+    
+    // Seleciona 1 aleatório para ser o vídeo incorreto
+    const wrongIndex = otherIndices[Math.floor(Math.random() * otherIndices.length)];
+    
+    // Cria array com os 2 vídeos (correto + incorreto)
+    const videos = [
+        { index: correctIndex, isCorrect: true },
+        { index: wrongIndex, isCorrect: false }
+    ];
+    
+    // Embaralha os vídeos
+    shuffleArray(videos);
+    
+    // Limpa container anterior
+    gameVideosContainer.innerHTML = '';
+    
+    // Cria os 2 vídeos
+    videos.forEach((video, videoIndex) => {
+        const signal = signals[video.index];
+        const videoWrapper = document.createElement('div');
+        videoWrapper.className = 'level2-video-wrapper';
+        videoWrapper.setAttribute('data-index', video.index);
+        videoWrapper.setAttribute('data-correct', video.isCorrect);
+        
+        const videoElement = document.createElement('video');
+        videoElement.src = signal.video;
+        videoElement.className = 'level2-video';
+        videoElement.autoplay = true;
+        videoElement.muted = true;
+        videoElement.loop = true;
+        
+        const videoLabel = document.createElement('div');
+        videoLabel.className = 'level2-video-label';
+        videoLabel.textContent = videoIndex === 0 ? 'Vídeo A' : 'Vídeo B';
+        
+        videoWrapper.appendChild(videoElement);
+        videoWrapper.appendChild(videoLabel);
+        
+        videoWrapper.addEventListener('click', () => handleLevel2Answer(video.index, videoWrapper));
+        gameVideosContainer.appendChild(videoWrapper);
+    });
+}
+
+function handleLevel2Answer(selectedIndex, videoElement) {
+    if (gameAnswered) return;
+    
+    gameAnswered = true;
+    const isCorrect = selectedIndex === currentCorrectAnswer;
+    const videoWrappers = gameVideosContainer.querySelectorAll('.level2-video-wrapper');
+    
+    // Desabilita todos os vídeos e mostra resultado
+    videoWrappers.forEach(wrapper => {
+        wrapper.style.pointerEvents = 'none';
+        const wrapperIndex = parseInt(wrapper.getAttribute('data-index'));
+        const isWrapperCorrect = wrapper.getAttribute('data-correct') === 'true';
+        
+        if (isWrapperCorrect) {
+            wrapper.classList.add('correct-video');
+            wrapper.classList.add('correct-video-animated');
+        } else {
+            wrapper.classList.add('wrong-video');
+        }
+    });
+    
+    // Mostra feedback
+    if (isCorrect) {
+        gameScore += 10;
+        showGameFeedback('✅ Correto! Parabéns!', 'success');
+        addPoints(10);
+    } else {
+        const correctSignal = signals[currentCorrectAnswer];
+        showGameFeedback(`❌ Incorreto! O vídeo correto representa: ${correctSignal.title}`, 'error');
+    }
+    
+    updateGameScore();
+    
+    // Mostra botão para próxima pergunta
+    const nextBtn = document.getElementById('nextQuestionButton');
+    if (nextBtn) {
+        if (currentGameQuestion < gameQuestions.length - 1) {
+            nextBtn.innerHTML = '<span>Próxima Pergunta →</span>';
+            nextBtn.style.display = 'block';
+        } else {
+            nextBtn.innerHTML = '<span>Ver Resultado Final</span>';
+            nextBtn.style.display = 'block';
+        }
+    }
 }
 
 function handleGameAnswer(selectedIndex) {
@@ -965,6 +1112,7 @@ function endGame() {
 function closeGame() {
     gameMode = false;
     gameSection.style.display = 'none';
+    levelSelectorModal.style.display = 'none';
     document.querySelector('.game-wrapper').style.display = 'flex';
     document.querySelector('.compact-progress').style.display = 'block';
     document.querySelector('.progress-dots').style.display = 'flex';
@@ -1020,6 +1168,31 @@ function setupEventListeners() {
     }
     // Event listener do botão de próxima pergunta é adicionado dinamicamente
     // quando o botão é recriado em startGame()
+    
+    // Seletor de nível
+    if (closeLevelSelectorButton) {
+        closeLevelSelectorButton.addEventListener('click', () => {
+            levelSelectorModal.style.display = 'none';
+        });
+    }
+    
+    // Botões de seleção de nível
+    const levelOptionButtons = document.querySelectorAll('.level-option-btn');
+    levelOptionButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const level = parseInt(btn.getAttribute('data-level'));
+            startGameWithLevel(level);
+        });
+    });
+    
+    // Fechar seletor ao clicar fora
+    if (levelSelectorModal) {
+        levelSelectorModal.addEventListener('click', (e) => {
+            if (e.target === levelSelectorModal) {
+                levelSelectorModal.style.display = 'none';
+            }
+        });
+    }
 }
 
 /* ============================================

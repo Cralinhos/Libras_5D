@@ -182,9 +182,29 @@
         - Sistema de pontuação
         - Progresso através dos 14 vídeos
     ============================================ -->
+    <!-- Seletor de Nível -->
+    <div class="level-selector-modal" id="levelSelectorModal" style="display: none;">
+        <div class="level-selector-content">
+            <h2>🎮 Escolha o Nível do Jogo</h2>
+            <div class="level-options">
+                <button class="level-option-btn" data-level="1">
+                    <div class="level-icon">📝</div>
+                    <div class="level-title">Nível 1</div>
+                    <div class="level-description">Vídeo + 4 Alternativas</div>
+                </button>
+                <button class="level-option-btn" data-level="2">
+                    <div class="level-icon">🎬</div>
+                    <div class="level-title">Nível 2</div>
+                    <div class="level-description">2 Vídeos - Escolha o Correto</div>
+                </button>
+            </div>
+            <button class="close-level-selector-btn" id="closeLevelSelectorButton">×</button>
+        </div>
+    </div>
+
     <div class="game-section" id="gameSection" style="display: none;">
         <div class="game-section-header">
-            <h2>🎮 JOGO - Teste seus Conhecimentos</h2>
+            <h2>🎮 JOGO - Teste seus Conhecimentos <span id="currentLevelBadge">Nível 1</span></h2>
             <button class="close-game-btn" id="closeGameButton" aria-label="Fechar jogo">×</button>
         </div>
         
@@ -197,25 +217,39 @@
         </div>
 
         <div class="game-card" id="gameCard">
-            <div class="game-video-container">
-                <div class="game-video-frame">
-                    <video 
-                        id="gameVideo" 
-                        class="game-video" 
-                        autoplay 
-                        muted 
-                        loop>
-                    </video>
-                    <div class="game-video-overlay"></div>
+            <!-- Nível 1: 1 vídeo + 4 alternativas -->
+            <div class="game-level-1" id="gameLevel1">
+                <div class="game-video-container">
+                    <div class="game-video-frame">
+                        <video 
+                            id="gameVideo" 
+                            class="game-video" 
+                            autoplay 
+                            muted 
+                            loop>
+                        </video>
+                        <div class="game-video-overlay"></div>
+                    </div>
+                </div>
+
+                <div class="game-question">
+                    <h3>Qual é o sinal exibido no vídeo?</h3>
+                </div>
+
+                <div class="game-options" id="gameOptions">
+                    <!-- As alternativas serão geradas dinamicamente -->
                 </div>
             </div>
 
-            <div class="game-question">
-                <h3>Qual é o sinal exibido no vídeo?</h3>
-            </div>
+            <!-- Nível 2: 2 vídeos + pergunta sobre qual vídeo representa o sinal -->
+            <div class="game-level-2" id="gameLevel2" style="display: none;">
+                <div class="game-question">
+                    <h3 id="level2Question">Qual vídeo representa o sinal <strong id="level2SignalName"></strong>?</h3>
+                </div>
 
-            <div class="game-options" id="gameOptions">
-                <!-- As alternativas serão geradas dinamicamente -->
+                <div class="game-videos-container" id="gameVideosContainer">
+                    <!-- Os 2 vídeos serão gerados dinamicamente -->
+                </div>
             </div>
 
             <div class="game-feedback" id="gameFeedback" style="display: none;">
