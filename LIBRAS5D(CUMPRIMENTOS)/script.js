@@ -17,7 +17,22 @@ const signals = [
     { id: 11, title: "OBRIGADA", video: "CUMPRIMENTOS/11_OBRIGADA.mp4", alt: "Avatar fazendo o sinal de Obrigada", context: "Usado para agradecer alguém" },
     { id: 12, title: "OI", video: "CUMPRIMENTOS/12_OI.mp4", alt: "Avatar fazendo o sinal de Oi", context: "Usado como cumprimento informal" },
     { id: 13, title: "TCHAU", video: "CUMPRIMENTOS/13_TCHAU.mp4", alt: "Avatar fazendo o sinal de Tchau", context: "Usado para se despedir de alguém" },
-    { id: 14, title: "POR FAVOR", video: "CUMPRIMENTOS/14_POR_FAVOR.mp4", alt: "Avatar fazendo o sinal de Por Favor", context: "Usado para fazer um pedido de forma educada" }
+    { id: 14, title: "POR FAVOR", video: "CUMPRIMENTOS/14_POR_FAVOR.mp4", alt: "Avatar fazendo o sinal de Por Favor", context: "Usado para fazer um pedido de forma educada" },
+    { id: 15, title: "VOCÊ", video: "CUMPRIMENTOS/15_VOCÊ.mp4", alt: "Avatar fazendo o sinal de Você", context: "Usado para indicar a segunda pessoa (você)" },
+    { id: 16, title: "ELE/ELA", video: "CUMPRIMENTOS/16_ELE_ELA.mp4", alt: "Avatar fazendo o sinal de Ele/Ela", context: "Usado para indicar a terceira pessoa (ele ou ela)" },
+    { id: 17, title: "NÓS", video: "CUMPRIMENTOS/17_NÓS.mp4", alt: "Avatar fazendo o sinal de Nós", context: "Usado para indicar a primeira pessoa do plural" },
+    { id: 18, title: "EU", video: "CUMPRIMENTOS/18_EU.mp4", alt: "Avatar fazendo o sinal de Eu", context: "Usado para indicar a primeira pessoa do singular" },
+    { id: 19, title: "TUDO/TODOS", video: "CUMPRIMENTOS/19_TUDO_TODOS.mp4", alt: "Avatar fazendo o sinal de Tudo/Todos", context: "Usado para indicar totalidade ou conjunto completo" },
+    { id: 20, title: "MEU/MINHA", video: "CUMPRIMENTOS/20_MEU_MINHA.mp4", alt: "Avatar fazendo o sinal de Meu/Minha", context: "Usado para indicar posse na primeira pessoa" },
+    { id: 21, title: "SEU", video: "CUMPRIMENTOS/21_SEU.mp4", alt: "Avatar fazendo o sinal de Seu", context: "Usado para indicar posse na segunda pessoa" },
+    { id: 22, title: "NOSSO", video: "CUMPRIMENTOS/22_NOSSO.mp4", alt: "Avatar fazendo o sinal de Nosso", context: "Usado para indicar posse compartilhada" },
+    { id: 23, title: "PRONTO", video: "CUMPRIMENTOS/23_PRONTO.mp4", alt: "Avatar fazendo o sinal de Pronto", context: "Usado para indicar que algo está concluído ou preparado" },
+    { id: 24, title: "SENTAR/CADEIRA", video: "CUMPRIMENTOS/23_SENTAR_OU_CADEIRA.mp4", alt: "Avatar fazendo o sinal de Sentar/Cadeira", context: "Usado para indicar ação de sentar ou objeto cadeira" },
+    { id: 25, title: "QUERER", video: "CUMPRIMENTOS/24_QUERER.mp4", alt: "Avatar fazendo o sinal de Querer", context: "Usado para expressar desejo ou vontade" },
+    { id: 26, title: "NÃO QUERER", video: "CUMPRIMENTOS/25_NÃO_QUERER.mp4", alt: "Avatar fazendo o sinal de Não Querer", context: "Usado para expressar negação de desejo" },
+    { id: 27, title: "ENTENDER", video: "CUMPRIMENTOS/26_ENTENDER.mp4", alt: "Avatar fazendo o sinal de Entender", context: "Usado para indicar compreensão" },
+    { id: 28, title: "NÃO ENTENDER", video: "CUMPRIMENTOS/27_NÃO_ENTENDER.mp4", alt: "Avatar fazendo o sinal de Não Entender", context: "Usado para indicar falta de compreensão" },
+    { id: 29, title: "NOME", video: "CUMPRIMENTOS/28_NOME.mp4", alt: "Avatar fazendo o sinal de Nome", context: "Usado para perguntar ou informar o nome de alguém" }
 ];
 
 /* ============================================
