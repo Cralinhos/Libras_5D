@@ -712,9 +712,9 @@ body {
 .sidebar {
     position: fixed;
     top: 0;
+    bottom: 0;
     left: -320px;
     width: 300px;
-    height: 100vh;
     background: var(--color-white);
     box-shadow: var(--shadow-xl);
     z-index: 2000;
@@ -734,6 +734,11 @@ body {
     justify-content: space-between;
     align-items: center;
     color: var(--color-white);
+    /* Garante que o header fique sempre visível e não ultrapasse o topo,
+       mesmo com o zoom aplicado no body */
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 .sidebar-header h2 {
