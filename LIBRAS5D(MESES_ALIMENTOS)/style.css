@@ -1,0 +1,1968 @@
+/* ============================================
+   DOCUMENTAÇÃO: IMPORTAÇÕES E RESET
+   - Importa fonte Poppins do Google Fonts
+   - Reset básico para garantir consistência
+   ============================================ */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: VARIÁVEIS CSS (PALETA DE CORES)
+   - Mantém a paleta original do projeto
+   - Facilita manutenção e consistência
+   ============================================ */
+:root {
+    --color-primary: #4ad0a0;
+    --color-primary-dark: #47927e;
+    --color-primary-darker: #1a7a6d;
+    --color-secondary: #66C9B2;
+    --color-background: #e9f5f2;
+    --color-white: #ffffff;
+    --color-text: #333;
+    --color-text-light: #555;
+    --color-text-lighter: #888;
+    --color-success: #2ecc71;
+    --color-progress-start: #63f7b0;
+    --color-progress-end: #2ecc71;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.4);
+    --border-radius: 20px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: BODY E FUNDO
+   - Fundo com gradiente sutil
+   - Layout centralizado
+   - Overflow controlado
+   ============================================ */
+body {
+    font-family: "Poppins", Arial, sans-serif;
+    background: linear-gradient(135deg, var(--color-background) 0%, #d4e8e1 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+    zoom: 80%;
+    transform-origin: top center;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: BARRA DE PROGRESSO COMPACTA
+   - Barra menor e mais discreta
+   - Posicionada acima do conteúdo principal
+   ============================================ */
+.compact-progress {
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 20px;
+    z-index: 100;
+}
+
+.progress-header-compact {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.module-label {
+    font-weight: 600;
+    color: var(--color-primary-darker);
+    font-size: 0.95em;
+    background: var(--color-white);
+    padding: 8px 15px;
+    border-radius: 12px;
+    display: inline-block;
+    box-shadow: var(--shadow-sm);
+}
+
+.progress-bar-compact {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--color-white);
+    padding: 12px 20px;
+    border-radius: 15px;
+    box-shadow: var(--shadow-sm);
+}
+
+.progress-bar-track-compact {
+    flex: 1;
+    height: 12px;
+    background: var(--color-background);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar-fill-compact {
+    height: 100%;
+    width: 7.14%;
+    background: linear-gradient(90deg, var(--color-progress-start) 0%, var(--color-progress-end) 100%);
+    border-radius: 10px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px rgba(46, 204, 113, 0.4);
+}
+
+.progress-text-compact {
+    font-weight: 700;
+    color: var(--color-primary-darker);
+    font-size: 0.95em;
+    min-width: 45px;
+    text-align: center;
+}
+
+.progress-percentage-compact {
+    font-weight: 700;
+    color: var(--color-primary-darker);
+    font-size: 0.95em;
+    min-width: 35px;
+    text-align: right;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: WRAPPER PRINCIPAL HORIZONTAL
+   - Layout horizontal com elementos laterais
+   - Menu à esquerda, stats à direita
+   ============================================ */
+.game-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: SIDEBARS LATERAIS
+   - Menu hamburger à esquerda
+   - Stats à direita
+   ============================================ */
+.left-sidebar,
+.right-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    position: sticky;
+    top: 20px;
+}
+
+.menu-toggle {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 1.5em;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    flex-shrink: 0;
+}
+
+.menu-toggle:hover {
+    transform: scale(1.1) rotate(90deg);
+    background: var(--color-primary-dark);
+    box-shadow: var(--shadow-lg);
+}
+
+.game-stats-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 120px;
+}
+
+.stat-item-vertical {
+    background: var(--color-white);
+    padding: 15px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    text-align: center;
+}
+
+.stat-item-vertical:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-item-vertical .stat-icon {
+    font-size: 1.8em;
+}
+
+.stat-item-vertical .stat-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.stat-item-vertical .stat-value {
+    font-weight: 700;
+    font-size: 1.2em;
+    color: var(--color-primary-darker);
+}
+
+.stat-item-vertical .stat-label {
+    font-size: 0.8em;
+    color: var(--color-text-light);
+}
+
+.stat-item-vertical.points-display {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+}
+
+.stat-item-vertical.points-display .stat-value {
+    color: var(--color-text);
+}
+
+.stat-item-vertical.level-badge {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+}
+
+.stat-item-vertical.level-badge .stat-value {
+    color: var(--color-white);
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: ANIMAÇÃO DE CONQUISTA
+   - Efeito visual ao completar sinal
+   - Reforça ciclo de recompensa
+   ============================================ */
+@keyframes achievementPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+@keyframes achievementGlow {
+    0%, 100% {
+        box-shadow: var(--shadow-sm);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), var(--shadow-md);
+    }
+}
+
+.stat-item-vertical.points-display.achievement {
+    animation: achievementPulse 0.6s ease-out, achievementGlow 0.6s ease-out;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: ELEMENTOS INTERATIVOS
+   - Usar cor de destaque para clicáveis
+   ============================================ */
+.action-btn:focus,
+.control-btn:focus,
+.menu-toggle:focus,
+.random-mode-button:focus {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+
+
+/* ============================================
+   DOCUMENTAÇÃO: CONTAINER PRINCIPAL
+   - Centralizado e responsivo
+   - Layout horizontal otimizado
+   ============================================ */
+.game-container {
+    flex: 1;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: CARD PRINCIPAL
+   - Design moderno com sombras
+   - Animações de transição
+   - Layout organizado
+   ============================================ */
+.card {
+    background: var(--color-white);
+    border-radius: 30px;
+    padding: 40px;
+    width: 100%;
+    box-shadow: var(--shadow-xl);
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: BADGE DO SINAL
+   - Indicador visual do número do sinal
+   - Posicionado no topo direito
+   - Design circular moderno
+   ============================================ */
+.signal-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: var(--color-white);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+    font-weight: 700;
+}
+
+.badge-number {
+    font-size: 1.8em;
+    line-height: 1;
+}
+
+.badge-total {
+    font-size: 0.7em;
+    opacity: 0.9;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: TÍTULO DO SINAL
+   - Tipografia destacada
+   - Animação de entrada
+   - Sublinhado decorativo
+   ============================================ */
+.signal-title-container {
+    text-align: center;
+    margin-bottom: 25px;
+    margin-top: 10px;
+}
+
+.title-label {
+    font-size: 0.85em;
+    font-weight: 600;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    opacity: 0.8;
+}
+
+.signal-title {
+    font-size: 3em;
+    font-weight: 800;
+    color: var(--color-primary-darker);
+    margin-bottom: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    animation: titlePulse 2s ease-in-out infinite;
+    text-shadow: 0 2px 10px rgba(26, 122, 109, 0.2);
+    line-height: 1.2;
+}
+
+.context-inline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 15px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, rgba(74, 208, 160, 0.1) 0%, rgba(102, 201, 178, 0.1) 100%);
+    border-radius: 12px;
+    border-left: 3px solid var(--color-primary);
+}
+
+.context-icon-inline {
+    font-size: 1.3em;
+    flex-shrink: 0;
+}
+
+.context-text-inline {
+    color: var(--color-text);
+    font-size: 0.95em;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+}
+
+@keyframes titlePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+.title-underline {
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    margin: 0 auto;
+    border-radius: 2px;
+    animation: underlineGrow 0.5s ease-out;
+}
+
+@keyframes underlineGrow {
+    from { width: 0; }
+    to { width: 100px; }
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: CONTAINER DE VÍDEO
+   - Frame decorativo ao redor do vídeo
+   - Controles flutuantes
+   - Design moderno
+   ============================================ */
+.video-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 30px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.video-frame {
+    position: relative;
+    width: 100%;
+    min-height: 500px;
+    padding: 0;
+    background: linear-gradient(135deg, #d4e8e1 0%, #c4d8d1 100%);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.signal-video {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 450px;
+    max-height: 600px;
+    object-fit: contain;
+    border-radius: 0;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
+    pointer-events: none;
+    border-radius: 20px;
+}
+
+.video-controls-panel {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    background: rgba(74, 208, 160, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 10px 15px;
+    border-radius: 25px;
+    box-shadow: var(--shadow-md);
+}
+
+.control-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: var(--color-white);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    transition: var(--transition);
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.15);
+}
+
+.speed-btn {
+    font-size: 0.9em;
+    font-weight: 600;
+    min-width: 45px;
+    border-radius: 20px;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: SEÇÃO DE CONTEXTO
+   - Design moderno com ícone
+   - Background suave
+   - Tipografia legível
+   ============================================ */
+.context-section {
+    background: linear-gradient(135deg, var(--color-background) 0%, #d4e8e1 100%);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    border-left: 4px solid var(--color-primary);
+}
+
+.context-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.context-icon {
+    font-size: 1.5em;
+}
+
+.context-header h3 {
+    color: var(--color-primary-darker);
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.context-text {
+    color: var(--color-text);
+    font-size: 1em;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: BOTÕES DE AÇÃO
+   - Design grande e intuitivo
+   - Feedback visual ao hover
+   - Layout responsivo
+   ============================================ */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+.action-btn {
+    flex: 1;
+    padding: 18px 25px;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: var(--transition);
+    box-shadow: var(--shadow-md);
+    color: var(--color-white);
+}
+
+.prev-btn {
+    background: var(--color-text-lighter);
+}
+
+.prev-btn:hover:not(:disabled) {
+    background: var(--color-text-light);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.prev-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.next-btn {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.next-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.next-btn:hover::before {
+    left: 100%;
+}
+
+.next-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(74, 208, 160, 0.4);
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+}
+
+.next-btn.primary {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    box-shadow: 0 6px 20px rgba(74, 208, 160, 0.3);
+    border: 2px solid var(--color-primary);
+}
+
+.btn-shortcut {
+    font-size: 0.7em;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-left: 8px;
+    letter-spacing: 0.5px;
+}
+
+.btn-icon {
+    font-size: 1.3em;
+}
+
+.btn-text {
+    font-weight: 700;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: INDICADORES DE PROGRESSO (BOLINHAS)
+   - Visualização clara do progresso
+   - Animação ao completar
+   ============================================ */
+.progress-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 600px;
+}
+
+.progress-dot {
+    width: 12px;
+    height: 12px;
+    margin-top: 10px;
+    border-radius: 50%;
+    background: var(--color-background);
+    border: 2px solid var(--color-primary);
+    transition: var(--transition);
+}
+
+.progress-dot.completed {
+    background: var(--color-primary);
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(74, 208, 160, 0.5);
+}
+
+.progress-dot.active {
+    background: var(--color-secondary);
+    transform: scale(1.3);
+    box-shadow: 0 0 15px rgba(102, 201, 178, 0.7);
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: MENU LATERAL
+   - Design moderno
+   - Lista de sinais com badges
+   ============================================ */
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: -320px;
+    width: 300px;
+    background: var(--color-white);
+    box-shadow: var(--shadow-xl);
+    z-index: 2000;
+    transition: left 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+.sidebar-header {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-white);
+    /* Garante que o header fique sempre visível e não ultrapasse o topo,
+       mesmo com o zoom aplicado no body */
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.sidebar-header h2 {
+    font-size: 1.3em;
+    margin: 0;
+}
+
+.sidebar-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: var(--color-white);
+    font-size: 2em;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.sidebar-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.sidebar-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.signals-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.signals-list li {
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: var(--transition);
+    border-left: 4px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.signals-list li:hover {
+    background: var(--color-background);
+}
+
+.signals-list li.active {
+    background: var(--color-background);
+    border-left-color: var(--color-primary);
+    font-weight: 600;
+    color: var(--color-primary-darker);
+}
+
+.signal-completed {
+    color: var(--color-success);
+    font-size: 1.2em;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--color-background);
+}
+
+.random-mode-button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: var(--color-white);
+    border: none;
+    border-radius: 15px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.random-mode-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.random-mode-button.active {
+    background: linear-gradient(135deg, var(--color-primary-darker) 0%, var(--color-primary-dark) 100%);
+}
+
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1999;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: MODAL DE CONCLUSÃO
+   - Design celebratório
+   - Animações de confete
+   - Estatísticas destacadas
+   ============================================ */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 3000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    backdrop-filter: blur(5px);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: var(--color-white);
+    border-radius: 30px;
+    padding: 50px 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: var(--shadow-xl);
+    transform: scale(0.8);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+.celebration-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--color-primary);
+    animation: confettiFall 3s infinite;
+}
+
+.confetti:nth-child(1) {
+    left: 20%;
+    animation-delay: 0s;
+    background: var(--color-primary);
+}
+
+.confetti:nth-child(2) {
+    left: 50%;
+    animation-delay: 0.5s;
+    background: var(--color-secondary);
+}
+
+.confetti:nth-child(3) {
+    left: 80%;
+    animation-delay: 1s;
+    background: var(--color-success);
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(600px) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+.modal-header h2 {
+    color: var(--color-primary-darker);
+    font-size: 2.5em;
+    margin-bottom: 15px;
+}
+
+.completion-message {
+    color: var(--color-text);
+    font-size: 1.1em;
+    margin-bottom: 25px;
+}
+
+.modal-stats {
+    background: var(--color-background);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.modal-stat-value {
+    display: block;
+    font-size: 2.5em;
+    font-weight: 800;
+    color: var(--color-primary-darker);
+    margin-bottom: 5px;
+}
+
+.modal-stat-label {
+    color: var(--color-text-light);
+    font-size: 0.9em;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.modal-btn {
+    padding: 15px 25px;
+    border: none;
+    border-radius: 15px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.restart-btn {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+}
+
+.random-btn {
+    background: linear-gradient(135deg, var(--color-primary-darker) 0%, var(--color-primary-dark) 100%);
+}
+
+.close-btn {
+    background: var(--color-text-lighter);
+}
+
+.modal-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: TOAST NOTIFICATIONS
+   - Feedback visual para ações
+   - Animações suaves
+   ============================================ */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 4000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    background: var(--color-white);
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 250px;
+    animation: toastSlideIn 0.3s ease-out;
+    border-left: 4px solid var(--color-primary);
+}
+
+@keyframes toastSlideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast.success {
+    border-left-color: var(--color-success);
+}
+
+.toast-icon {
+    font-size: 1.5em;
+}
+
+.toast-message {
+    flex: 1;
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: DICAS DE TECLADO
+   - Design discreto mas útil
+   - Informações claras
+   ============================================ */
+.keyboard-hints {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(26, 122, 109, 0.95);
+    color: var(--color-white);
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 0.85em;
+    box-shadow: var(--shadow-md);
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    opacity: 0.8;
+    transition: var(--transition);
+}
+
+.keyboard-hints:hover {
+    opacity: 1;
+}
+
+.hint-item {
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+kbd {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-weight: 600;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: RESPONSIVIDADE
+   - Adaptação para mobile
+   - Layout flexível
+   ============================================ */
+@media (max-width: 1024px) {
+    .game-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .left-sidebar,
+    .right-sidebar {
+        position: static;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .game-stats-vertical {
+        flex-direction: row;
+        min-width: auto;
+    }
+
+    .stat-item-vertical {
+        flex-direction: row;
+        padding: 12px 20px;
+    }
+
+    .menu-toggle {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .compact-progress {
+        margin-bottom: 15px;
+    }
+
+    .progress-bar-compact {
+        padding: 10px 15px;
+    }
+
+    .progress-bar-track-compact {
+        height: 10px;
+    }
+
+    .card {
+        padding: 25px;
+    }
+
+    .signal-title {
+        font-size: 2em;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .keyboard-hints {
+        display: none;
+    }
+
+    .sidebar {
+        width: 280px;
+        left: -280px;
+    }
+
+    .left-sidebar,
+    .right-sidebar {
+        gap: 10px;
+    }
+
+    .game-stats-vertical {
+        gap: 10px;
+    }
+
+    .stat-item-vertical {
+        padding: 10px 15px;
+        font-size: 0.9em;
+    }
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: ANIMAÇÕES GLOBAIS
+   - Transições suaves
+   - Efeitos de hover
+   ============================================ */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: ACESSIBILIDADE
+   - Foco visível
+   - Contraste adequado
+   ============================================ */
+button:focus,
+video:focus {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: SEÇÃO DE JOGO
+   - Design moderno para o modo jogo
+   - Layout centralizado
+   - Feedback visual claro
+   ============================================ */
+.game-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.game-section-header {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: var(--color-white);
+    padding: 20px 30px;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-md);
+}
+
+.game-section-header h2 {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+.close-game-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: var(--color-white);
+    font-size: 2em;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.close-game-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.game-progress-info {
+    background: var(--color-white);
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.game-progress-bar {
+    flex: 1;
+    height: 12px;
+    background: var(--color-background);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.game-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--color-progress-start) 0%, var(--color-progress-end) 100%);
+    border-radius: 10px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px rgba(46, 204, 113, 0.4);
+}
+
+.game-progress-text {
+    font-weight: 600;
+    color: var(--color-primary-darker);
+    font-size: 0.95em;
+    min-width: 120px;
+}
+
+.game-score-text {
+    font-weight: 700;
+    color: var(--color-primary-darker);
+    font-size: 1em;
+    min-width: 150px;
+    text-align: right;
+}
+
+.game-card {
+    background: var(--color-white);
+    border-radius: 0 0 30px 30px;
+    padding: 40px;
+    box-shadow: var(--shadow-xl);
+    margin-bottom: 20px;
+}
+
+.game-video-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 30px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.game-video-frame {
+    position: relative;
+    width: 100%;
+    min-height: 400px;
+    padding: 0;
+    background: linear-gradient(135deg, #d4e8e1 0%, #c4d8d1 100%);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-video {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 350px;
+    max-height: 500px;
+    object-fit: contain;
+    border-radius: 0;
+}
+
+.game-video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
+    pointer-events: none;
+    border-radius: 20px;
+}
+
+.game-question {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.game-question h3 {
+    color: var(--color-primary-darker);
+    font-size: 1.5em;
+    font-weight: 600;
+    margin: 0;
+}
+
+.game-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.game-option-btn {
+    padding: 20px 25px;
+    border: 3px solid;
+    border-radius: 15px;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--color-white);
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.option-letter {
+    font-size: 1.5em;
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.25);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    flex-shrink: 0;
+    transition: var(--transition);
+    backdrop-filter: blur(5px);
+}
+
+.game-option-btn:hover:not(:disabled) .option-letter {
+    background: rgba(255, 255, 255, 0.35);
+    border-color: rgba(255, 255, 255, 0.7);
+    transform: scale(1.1);
+}
+
+.game-option-btn.correct .option-letter {
+    background: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.game-option-btn.wrong-gray .option-letter {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    opacity: 0.6;
+}
+
+.option-text {
+    flex: 1;
+    text-align: left;
+}
+
+/* Cores dos botões: verde, azul, laranja, vermelho */
+.game-option-btn.option-green {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    border-color: #27ae60;
+}
+
+.game-option-btn.option-blue {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    border-color: #2980b9;
+}
+
+.game-option-btn.option-orange {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    border-color: #e67e22;
+}
+
+.game-option-btn.option-red {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    border-color: #c0392b;
+}
+
+.game-option-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    filter: brightness(1.1);
+}
+
+.game-option-btn:disabled {
+    cursor: not-allowed;
+}
+
+/* Alternativas erradas ficam cinzas */
+.game-option-btn.wrong-gray {
+    background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%) !important;
+    border-color: #7f8c8d !important;
+    opacity: 0.6;
+    filter: grayscale(0.5);
+}
+
+/* Alternativa incorreta selecionada (mantém vermelho, mas depois fica cinza) */
+.game-option-btn.incorrect {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%) !important;
+    border-color: #e74c3c !important;
+    animation: incorrectShake 0.5s ease-out;
+}
+
+/* Alternativa correta com animação - mantém a cor original */
+.game-option-btn.correct {
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+/* Animação para alternativa correta - adapta a cor do brilho à cor do botão */
+.game-option-btn.correct-animated {
+    animation: correctSuccess 0.8s ease-out;
+}
+
+/* Brilho verde para botão verde correto */
+.game-option-btn.option-green.correct {
+    box-shadow: 0 0 20px rgba(46, 204, 113, 0.6);
+}
+
+.game-option-btn.option-green.correct-animated {
+    animation: correctSuccessGreen 0.8s ease-out;
+}
+
+/* Brilho azul para botão azul correto */
+.game-option-btn.option-blue.correct {
+    box-shadow: 0 0 20px rgba(52, 152, 219, 0.6);
+}
+
+.game-option-btn.option-blue.correct-animated {
+    animation: correctSuccessBlue 0.8s ease-out;
+}
+
+/* Brilho laranja para botão laranja correto */
+.game-option-btn.option-orange.correct {
+    box-shadow: 0 0 20px rgba(243, 156, 18, 0.6);
+}
+
+.game-option-btn.option-orange.correct-animated {
+    animation: correctSuccessOrange 0.8s ease-out;
+}
+
+/* Brilho vermelho para botão vermelho correto */
+.game-option-btn.option-red.correct {
+    box-shadow: 0 0 20px rgba(231, 76, 60, 0.6);
+}
+
+.game-option-btn.option-red.correct-animated {
+    animation: correctSuccessRed 0.8s ease-out;
+}
+
+@keyframes correctSuccess {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.08);
+    }
+    100% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes correctSuccessGreen {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(46, 204, 113, 0.6);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 30px rgba(46, 204, 113, 0.9);
+    }
+    100% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(46, 204, 113, 0.6);
+    }
+}
+
+@keyframes correctSuccessBlue {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(52, 152, 219, 0.6);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 30px rgba(52, 152, 219, 0.9);
+    }
+    100% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(52, 152, 219, 0.6);
+    }
+}
+
+@keyframes correctSuccessOrange {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(243, 156, 18, 0.6);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 30px rgba(243, 156, 18, 0.9);
+    }
+    100% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(243, 156, 18, 0.6);
+    }
+}
+
+@keyframes correctSuccessRed {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(231, 76, 60, 0.6);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 30px rgba(231, 76, 60, 0.9);
+    }
+    100% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(231, 76, 60, 0.6);
+    }
+}
+
+@keyframes incorrectShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.game-feedback {
+    background: var(--color-background);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    text-align: center;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.feedback-content {
+    font-size: 1.2em;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.feedback-content.success {
+    color: var(--color-success);
+}
+
+.feedback-content.error {
+    color: #e74c3c;
+}
+
+.feedback-content.final {
+    color: var(--color-primary-darker);
+    font-size: 1.3em;
+}
+
+.game-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.game-action-btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--color-white);
+    box-shadow: var(--shadow-md);
+}
+
+.next-question-btn {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+}
+
+.next-question-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+}
+
+.restart-game-btn {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+}
+
+.restart-game-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.back-to-main-btn {
+    background: var(--color-text-lighter);
+}
+
+.back-to-main-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    background: var(--color-text-light);
+}
+
+.game-mode-button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: var(--color-white);
+    border: none;
+    border-radius: 15px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: var(--shadow-sm);
+}
+
+.game-mode-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    background: linear-gradient(135deg, #ee5a6f 0%, #ff6b6b 100%);
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: Seletor de Nível
+   - Modal para escolher entre nível 1 e 2
+   - Design moderno e intuitivo
+   ============================================ */
+.level-selector-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 5000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.level-selector-content {
+    background: var(--color-white);
+    border-radius: 30px;
+    padding: 50px 40px;
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    box-shadow: var(--shadow-xl);
+    position: relative;
+}
+
+.level-selector-content h2 {
+    color: var(--color-primary-darker);
+    font-size: 2em;
+    margin-bottom: 30px;
+}
+
+.level-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.level-option-btn {
+    background: linear-gradient(135deg, var(--color-background) 0%, #d4e8e1 100%);
+    border: 3px solid var(--color-primary);
+    border-radius: 20px;
+    padding: 30px 20px;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+}
+
+.level-option-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    border-color: var(--color-primary-dark);
+    color: var(--color-white);
+}
+
+.level-option-btn:hover .level-icon,
+.level-option-btn:hover .level-title,
+.level-option-btn:hover .level-description {
+    color: var(--color-white);
+}
+
+.level-icon {
+    font-size: 3em;
+    margin-bottom: 15px;
+}
+
+.level-title {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--color-primary-darker);
+    margin-bottom: 10px;
+}
+
+.level-description {
+    font-size: 0.95em;
+    color: var(--color-text-light);
+    line-height: 1.5;
+}
+
+.close-level-selector-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    color: var(--color-text);
+    font-size: 2em;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.close-level-selector-btn:hover {
+    background: rgba(0, 0, 0, 0.2);
+    transform: rotate(90deg);
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: Nível 2 - 2 Vídeos
+   - Layout com 2 vídeos lado a lado
+   - Interação por clique
+   ============================================ */
+.game-videos-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.level2-video-wrapper {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, #d4e8e1 0%, #c4d8d1 100%);
+    padding: 5px;
+}
+
+.level2-video-wrapper:hover:not(.correct-video):not(.wrong-video) {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-primary);
+}
+
+.level2-video {
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+    max-height: 550px;
+    object-fit: contain;
+    display: block;
+}
+
+.level2-video-label {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--color-white);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 1em;
+    backdrop-filter: blur(10px);
+}
+
+.level2-video-wrapper.correct-video {
+    border-color: #2ecc71;
+    box-shadow: 0 0 25px rgba(46, 204, 113, 0.6);
+}
+
+.level2-video-wrapper.correct-video-animated {
+    animation: correctVideoPulse 0.8s ease-out;
+}
+
+.level2-video-wrapper.wrong-video {
+    border-color: #e74c3c;
+    opacity: 0.6;
+    filter: grayscale(0.5);
+}
+
+@keyframes correctVideoPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 25px rgba(46, 204, 113, 0.6);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 40px rgba(46, 204, 113, 0.9);
+    }
+    100% {
+        transform: scale(1.02);
+        box-shadow: 0 0 25px rgba(46, 204, 113, 0.6);
+    }
+}
+
+#currentLevelBadge {
+    font-size: 0.6em;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 5px 12px;
+    border-radius: 15px;
+    margin-left: 10px;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .game-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .game-progress-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .game-progress-text,
+    .game-score-text {
+        text-align: center;
+        min-width: auto;
+    }
+    
+    .game-section-header h2 {
+        font-size: 1.3em;
+    }
+    
+    .game-card {
+        padding: 25px;
+    }
+    
+    .level-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .game-videos-container {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .level2-video {
+        min-height: 300px;
+        max-height: 400px;
+    }
+    
+    .level2-video-wrapper {
+        padding: 3px;
+    }
+}

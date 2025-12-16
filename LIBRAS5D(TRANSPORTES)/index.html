@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aprenda Libras - Cumprimentos Game</title>
-    <base href="LIBRAS5D(CUMPRIMENTOS)/">
-    <link rel="icon" type="image/png" href="IMAGENS/LOGO_LIBRAS5Dhihi.png" sizes="150px">
+    <title>Aprenda Libras - Transportes</title>
+    <link rel="icon" type="image/png" href="IMAGENS\LOGO_LIBRAS5D.png" sizes="150px">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <!-- Conteúdo da página -->
 
-  <div vw class="enabled">
-    <div vw-access-button class="active"></div>
-    <div vw-plugin-wrapper>
-      <div class="vw-plugin-top-wrapper"></div>
+<body>
+    ... <!-- Conteúdo da página -->
+
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
     </div>
-  </div>
-  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-  <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
-  </script>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
     <!-- ============================================
         DOCUMENTAÇÃO: Barra de Progresso Compacta
         - Barra menor e mais discreta
@@ -29,7 +30,7 @@
     ============================================ -->
     <div class="compact-progress">
         <div class="progress-header-compact">
-            <span class="module-label">📚 Módulo 1: Cumprimentos</span>
+            <span class="module-label">🚗 Módulo 3: Transportes</span>
         </div>
         <div class="progress-bar-compact">
             <div class="progress-bar-track-compact">
@@ -48,7 +49,7 @@
     ============================================ -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2>Módulo 1:Cumprimentos</h2>
+            <h2>Módulo 3: Transportes</h2>
             <button class="sidebar-close" aria-label="Fechar menu">×</button>
         </div>
         <div class="sidebar-content">
@@ -83,74 +84,74 @@
 
         <!-- Container Principal do Jogo -->
         <div class="game-container">
-        <div class="card" id="card">
-            <!-- Badge de número do sinal -->
-            <div class="signal-badge" id="signalBadge">
-                <span class="badge-number" id="badgeNumber">1</span>
-                <span class="badge-total">/14</span>
-            </div>
-
-            <!-- Título do sinal com animação -->
-            <div class="signal-title-container">
-                <h1 class="signal-title" id="titleBanner">BOM DIA</h1>
-                <div class="title-underline"></div>
-                <div class="context-inline" id="contextInline">
-                    <span class="context-icon-inline">💬</span>
-                    <span class="context-text-inline" id="meaningTextInline">Usado para cumprimentar alguém pela manhã</span>
+            <div class="card" id="card">
+                <!-- Badge de número do sinal -->
+                <div class="signal-badge" id="signalBadge">
+                    <span class="badge-number" id="badgeNumber">1</span>
+                    <span class="badge-total">/14</span>
                 </div>
-            </div>
 
-            <!-- Área do vídeo com frame decorativo -->
-            <div class="video-container">
-                <div class="video-frame">
-                    <video 
-                        src="CUMPRIMENTOS/1_BOM_DIA.mp4" 
-                        alt="Avatar fazendo o sinal de Bom Dia" 
-                        class="signal-video" 
-                        id="avatarVideo" 
-                        autoplay 
-                        muted 
-                        loop>
-                    </video>
-                    <div class="video-overlay"></div>
+                <!-- Título do sinal com animação -->
+                <div class="signal-title-container">
+                    <h1 class="signal-title" id="titleBanner">CARRO</h1>
+                    <div class="title-underline"></div>
+                    <div class="context-inline" id="contextInline">
+                        <span class="context-icon-inline">💬</span>
+                        <span class="context-text-inline" id="meaningTextInline">Usado para se referir ao automóvel ou
+                            carro</span>
+                    </div>
                 </div>
-                
-                <!-- Controles de vídeo flutuantes -->
-                <div class="video-controls-panel">
-                    <button class="control-btn play-pause-btn" id="playPauseButton" aria-label="Pausar vídeo" title="Pausar (Espaço)">
-                        <span>⏸</span>
+
+                <!-- Área do vídeo com frame decorativo -->
+                <div class="video-container">
+                    <div class="video-frame">
+                        <video src="TRANSPORTES/1_CARRO.mp4" alt="Avatar fazendo o sinal de Carro" class="signal-video"
+                            id="avatarVideo" autoplay muted loop>
+                        </video>
+                        <div class="video-overlay"></div>
+                    </div>
+
+                    <!-- Controles de vídeo flutuantes -->
+                    <div class="video-controls-panel">
+                        <button class="control-btn play-pause-btn" id="playPauseButton" aria-label="Pausar vídeo"
+                            title="Pausar (Espaço)">
+                            <span>⏸</span>
+                        </button>
+                        <button class="control-btn repeat-btn" id="repeatButton" aria-label="Repetir vídeo"
+                            title="Repetir (R)">
+                            <span>↻</span>
+                        </button>
+                        <button class="control-btn speed-btn" id="speedButton" aria-label="Velocidade"
+                            title="Velocidade">
+                            <span>1x</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Seção de contexto com design moderno (mantida para referência) -->
+                <div class="context-section" style="display: none;">
+                    <div class="context-header">
+                        <span class="context-icon">💡</span>
+                        <h3>Contexto de Uso</h3>
+                    </div>
+                    <p class="context-text" id="meaningText">Usado para cumprimentar alguém pela manhã</p>
+                </div>
+
+                <!-- Botões de navegação grandes e visíveis -->
+                <div class="action-buttons">
+                    <button class="action-btn prev-btn" id="prevSignalButton" aria-label="Sinal anterior"
+                        title="Anterior (←)">
+                        <span class="btn-icon">←</span>
+                        <span class="btn-text">Anterior</span>
                     </button>
-                    <button class="control-btn repeat-btn" id="repeatButton" aria-label="Repetir vídeo" title="Repetir (R)">
-                        <span>↻</span>
-                    </button>
-                    <button class="control-btn speed-btn" id="speedButton" aria-label="Velocidade" title="Velocidade">
-                        <span>1x</span>
+                    <button class="action-btn next-btn primary" id="nextSignalButton" aria-label="Próximo sinal"
+                        title="Próximo (→ ou Enter)">
+                        <span class="btn-text">Próximo</span>
+                        <span class="btn-icon">→</span>
+                        <span class="btn-shortcut">ENTER</span>
                     </button>
                 </div>
             </div>
-
-            <!-- Seção de contexto com design moderno (mantida para referência) -->
-            <div class="context-section" style="display: none;">
-                <div class="context-header">
-                    <span class="context-icon">💡</span>
-                    <h3>Contexto de Uso</h3>
-                </div>
-                <p class="context-text" id="meaningText">Usado para cumprimentar alguém pela manhã</p>
-            </div>
-
-            <!-- Botões de navegação grandes e visíveis -->
-            <div class="action-buttons">
-                <button class="action-btn prev-btn" id="prevSignalButton" aria-label="Sinal anterior" title="Anterior (←)">
-                    <span class="btn-icon">←</span>
-                    <span class="btn-text">Anterior</span>
-                </button>
-                <button class="action-btn next-btn primary" id="nextSignalButton" aria-label="Próximo sinal" title="Próximo (→ ou Enter)">
-                    <span class="btn-text">Próximo</span>
-                    <span class="btn-icon">→</span>
-                    <span class="btn-shortcut">ENTER</span>
-                </button>
-            </div>
-        </div>
 
         </div>
 
@@ -208,7 +209,7 @@
             <h2>🎮 JOGO - Teste seus Conhecimentos <span id="currentLevelBadge">Nível 1</span></h2>
             <button class="close-game-btn" id="closeGameButton" aria-label="Fechar jogo">×</button>
         </div>
-        
+
         <div class="game-progress-info">
             <div class="game-progress-bar">
                 <div class="game-progress-fill" id="gameProgressFill"></div>
@@ -222,12 +223,7 @@
             <div class="game-level-1" id="gameLevel1">
                 <div class="game-video-container">
                     <div class="game-video-frame">
-                        <video 
-                            id="gameVideo" 
-                            class="game-video" 
-                            autoplay 
-                            muted 
-                            loop>
+                        <video id="gameVideo" class="game-video" autoplay muted loop>
                         </video>
                         <div class="game-video-overlay"></div>
                     </div>
@@ -280,7 +276,8 @@
             </div>
             <div class="modal-header">
                 <h2>🎉 Parabéns!</h2>
-                <p class="completion-message">Você completou todos os <strong id="totalSignalsCompleted">14</strong> sinais!</p>
+                <p class="completion-message">Você completou todos os <strong id="totalSignalsCompleted">14</strong>
+                    sinais!</p>
             </div>
             <div class="modal-stats">
                 <div class="modal-stat">
@@ -320,6 +317,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
-
-

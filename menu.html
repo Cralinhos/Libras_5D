@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIBRAS 5D - Menu Principal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin: 40px 0;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .module-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .module-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .module-signs {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .module-card {
+                padding: 20px;
+            }
+        }
+
+        .footer {
+            color: white;
+            text-align: center;
+            margin-top: 30px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>🤟 LIBRAS 5D</h1>
+        <p>Escolha um módulo para começar a aprender</p>
+    </div>
+
+    <div class="modules-grid">
+        <a href="LIBRAS5D(CUMPRIMENTOS)/index.html" class="module-card">
+            <div class="module-icon">📚</div>
+            <div class="module-number">Módulo 1</div>
+            <div class="module-title">Cumprimentos</div>
+            <div class="module-signs">29 sinais</div>
+        </a>
+
+        <a href="LIBRAS5D(PESSOAS_FAMILIA)/index.html" class="module-card">
+            <div class="module-icon">👨‍👩‍👧‍👦</div>
+            <div class="module-number">Módulo 2</div>
+            <div class="module-title">Pessoas/Família</div>
+            <div class="module-signs">14 sinais</div>
+        </a>
+
+        <a href="LIBRAS5D(TRANSPORTES)/index.html" class="module-card">
+            <div class="module-icon">🚗</div>
+            <div class="module-number">Módulo 3</div>
+            <div class="module-title">Transportes</div>
+            <div class="module-signs">14 sinais</div>
+        </a>
+
+        <a href="LIBRAS5D(CASA_MOVEIS)/index.html" class="module-card">
+            <div class="module-icon">🏠</div>
+            <div class="module-number">Módulo 4</div>
+            <div class="module-title">Casa/Móveis</div>
+            <div class="module-signs">14 sinais</div>
+        </a>
+
+        <a href="LIBRAS5D(LOCALIZACAO_OBJETOS)/index.html" class="module-card">
+            <div class="module-icon">📍</div>
+            <div class="module-number">Módulo 5</div>
+            <div class="module-title">Localização/Objetos</div>
+            <div class="module-signs">14 sinais</div>
+        </a>
+
+        <a href="LIBRAS5D(NATUREZA_ROUPAS)/index.html" class="module-card">
+            <div class="module-icon">🌳</div>
+            <div class="module-number">Módulo 6</div>
+            <div class="module-title">Natureza/Roupas</div>
+            <div class="module-signs">14 sinais</div>
+        </a>
+
+        <a href="LIBRAS5D(DIAS_SEMANA)/index.html" class="module-card">
+            <div class="module-icon">📅</div>
+            <div class="module-number">Módulo 7</div>
+            <div class="module-title">Dias da Semana</div>
+            <div class="module-signs">10 sinais</div>
+        </a>
+
+        <a href="LIBRAS5D(MESES_ALIMENTOS)/index.html" class="module-card">
+            <div class="module-icon">🍞</div>
+            <div class="module-number">Módulo 8</div>
+            <div class="module-title">Meses/Alimentos/Bebidas</div>
+            <div class="module-signs">20 sinais</div>
+        </a>
+
+        <a href="LIBRAS5D(PROFISSOES)/index.html" class="module-card">
+            <div class="module-icon">👨‍⚕️</div>
+            <div class="module-number">Módulo 9</div>
+            <div class="module-title">Profissões</div>
+            <div class="module-signs">14 sinais</div>
+        </a>
+
+        <a href="5DLIBRAS(CORES)/index.html" class="module-card">
+            <div class="module-icon">🎨</div>
+            <div class="module-number">Módulo 10</div>
+            <div class="module-title">Cores</div>
+            <div class="module-signs">10 sinais</div>
+        </a>
+    </div>
+
+    <div class="footer">
+        <p>© 2024 LIBRAS 5D - Aprendizado Interativo de Libras</p>
+    </div>
+</body>
+
+</html>
