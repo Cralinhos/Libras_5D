@@ -184,6 +184,39 @@ body {
     box-shadow: var(--shadow-lg);
 }
 
+.back-to-menu-btn {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+    color: var(--color-white);
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 1.5em;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.back-to-menu-btn:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, #ff8e53 0%, #ff6b6b 100%);
+}
+
+.back-icon {
+    display: inline-block;
+    transition: var(--transition);
+}
+
+.back-to-menu-btn:hover .back-icon {
+    transform: scale(1.2);
+}
+
 .game-stats-vertical {
     display: flex;
     flex-direction: column;

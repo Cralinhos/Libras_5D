@@ -184,6 +184,39 @@ body {
     box-shadow: var(--shadow-lg);
 }
 
+.back-to-menu-btn {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+    color: var(--color-white);
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 1.5em;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.back-to-menu-btn:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, #ff8e53 0%, #ff6b6b 100%);
+}
+
+.back-icon {
+    display: inline-block;
+    transition: var(--transition);
+}
+
+.back-to-menu-btn:hover .back-icon {
+    transform: scale(1.2);
+}
+
 .game-stats-vertical {
     display: flex;
     flex-direction: column;
@@ -253,18 +286,24 @@ body {
    - Reforça ciclo de recompensa
    ============================================ */
 @keyframes achievementPulse {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.15);
     }
 }
 
 @keyframes achievementGlow {
-    0%, 100% {
+
+    0%,
+    100% {
         box-shadow: var(--shadow-sm);
     }
+
     50% {
         box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), var(--shadow-md);
     }
@@ -428,8 +467,15 @@ body {
 }
 
 @keyframes titlePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.02); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
 }
 
 .title-underline {
@@ -442,8 +488,13 @@ body {
 }
 
 @keyframes underlineGrow {
-    from { width: 0; }
-    to { width: 100px; }
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100px;
+    }
 }
 
 /* ============================================
@@ -937,6 +988,7 @@ body {
         transform: translateY(-100px) rotate(0deg);
         opacity: 1;
     }
+
     100% {
         transform: translateY(600px) rotate(720deg);
         opacity: 0;
@@ -1046,6 +1098,7 @@ body {
         transform: translateX(400px);
         opacity: 0;
     }
+
     to {
         transform: translateX(0);
         opacity: 1;
@@ -1200,6 +1253,7 @@ kbd {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1551,9 +1605,11 @@ video:focus {
     0% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.08);
     }
+
     100% {
         transform: scale(1.05);
     }
@@ -1564,10 +1620,12 @@ video:focus {
         transform: scale(1);
         box-shadow: 0 0 0 rgba(46, 204, 113, 0.6);
     }
+
     50% {
         transform: scale(1.08);
         box-shadow: 0 0 30px rgba(46, 204, 113, 0.9);
     }
+
     100% {
         transform: scale(1.05);
         box-shadow: 0 0 20px rgba(46, 204, 113, 0.6);
@@ -1579,10 +1637,12 @@ video:focus {
         transform: scale(1);
         box-shadow: 0 0 0 rgba(52, 152, 219, 0.6);
     }
+
     50% {
         transform: scale(1.08);
         box-shadow: 0 0 30px rgba(52, 152, 219, 0.9);
     }
+
     100% {
         transform: scale(1.05);
         box-shadow: 0 0 20px rgba(52, 152, 219, 0.6);
@@ -1594,10 +1654,12 @@ video:focus {
         transform: scale(1);
         box-shadow: 0 0 0 rgba(243, 156, 18, 0.6);
     }
+
     50% {
         transform: scale(1.08);
         box-shadow: 0 0 30px rgba(243, 156, 18, 0.9);
     }
+
     100% {
         transform: scale(1.05);
         box-shadow: 0 0 20px rgba(243, 156, 18, 0.6);
@@ -1609,10 +1671,12 @@ video:focus {
         transform: scale(1);
         box-shadow: 0 0 0 rgba(231, 76, 60, 0.6);
     }
+
     50% {
         transform: scale(1.08);
         box-shadow: 0 0 30px rgba(231, 76, 60, 0.9);
     }
+
     100% {
         transform: scale(1.05);
         box-shadow: 0 0 20px rgba(231, 76, 60, 0.6);
@@ -1620,9 +1684,19 @@ video:focus {
 }
 
 @keyframes incorrectShake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    75% { transform: translateX(10px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-10px);
+    }
+
+    75% {
+        transform: translateX(10px);
+    }
 }
 
 .game-feedback {
@@ -1905,10 +1979,12 @@ video:focus {
         transform: scale(1);
         box-shadow: 0 0 25px rgba(46, 204, 113, 0.6);
     }
+
     50% {
         transform: scale(1.05);
         box-shadow: 0 0 40px rgba(46, 204, 113, 0.9);
     }
+
     100% {
         transform: scale(1.02);
         box-shadow: 0 0 25px rgba(46, 204, 113, 0.6);
@@ -1928,40 +2004,40 @@ video:focus {
     .game-options {
         grid-template-columns: 1fr;
     }
-    
+
     .game-progress-info {
         flex-direction: column;
         gap: 10px;
     }
-    
+
     .game-progress-text,
     .game-score-text {
         text-align: center;
         min-width: auto;
     }
-    
+
     .game-section-header h2 {
         font-size: 1.3em;
     }
-    
+
     .game-card {
         padding: 25px;
     }
-    
+
     .level-options {
         grid-template-columns: 1fr;
     }
-    
+
     .game-videos-container {
         grid-template-columns: 1fr;
         gap: 8px;
     }
-    
+
     .level2-video {
         min-height: 300px;
         max-height: 400px;
     }
-    
+
     .level2-video-wrapper {
         padding: 3px;
     }
