@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprenda Libras - Cores Game</title>
+    <link rel="icon" type="image/png" href="IMAGENS/LOGO_LIBRAS5D.png" sizes="150px">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Conteúdo da página -->
+
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+    <!-- ============================================
+        DOCUMENTAÇÃO: Barra de Progresso Compacta
+        - Barra menor e mais discreta
+        - Posicionada acima do card principal
+        - Com contexto de módulo
+    ============================================ -->
+    <div class="compact-progress">
+        <div class="progress-header-compact">
+            <span class="module-label">🎨 Módulo 10: Cores</span>
+        </div>
+        <div class="progress-bar-compact">
+            <div class="progress-bar-track-compact">
+                <div class="progress-bar-fill-compact" id="progressBarFill"></div>
+            </div>
+            <span class="progress-text-compact" id="progressText">1/10</span>
+            <span class="progress-percentage-compact" id="progressPercentage">10%</span>
+        </div>
+    </div>
+
+    <!-- ============================================
+        DOCUMENTAÇÃO: Menu Lateral
+        - Lista de sinais com indicadores visuais
+        - Badges de conclusão para cada sinal
+        - Modo aleatório destacado
+    ============================================ -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Módulo 10: Cores</h2>
+            <button class="sidebar-close" aria-label="Fechar menu">×</button>
+        </div>
+        <div class="sidebar-content">
+            <ul class="signals-list" id="signalsList" role="list"></ul>
+        </div>
+        <div class="sidebar-footer">
+            <button class="random-mode-button" id="randomModeButton">
+                <span class="button-icon">🎲</span>
+                <span>Modo Aleatório</span>
+            </button>
+            <button class="game-mode-button" id="gameModeButton" style="margin-top: 10px;">
+                <span class="button-icon">🎮</span>
+                <span>JOGO</span>
+            </button>
+        </div>
+    </div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ============================================
+        DOCUMENTAÇÃO: Área Principal do Jogo
+        - Layout horizontal com elementos laterais
+        - Card centralizado com design moderno
+        - Menu e stats nas laterais
+    ============================================ -->
+    <main class="game-wrapper">
+        <!-- Menu Hamburger Lateral Esquerdo -->
+        <aside class="left-sidebar">
+            <button class="menu-toggle" aria-label="Abrir menu de sinais" title="Menu (M)">
+                <span class="menu-icon">☰</span>
+            </button>
+            <a href="../menu.html" class="back-to-menu-btn" aria-label="Voltar ao Menu Principal" title="Voltar ao Menu">
+                <span class="back-icon">🏠</span>
+            </a>
+        </aside>
+
+        <!-- Container Principal do Jogo -->
+        <div class="game-container">
+        <div class="card" id="card">
+            <!-- Badge de número do sinal -->
+            <div class="signal-badge" id="signalBadge">
+                <span class="badge-number" id="badgeNumber">1</span>
+                <span class="badge-total">/10</span>
+            </div>
+
+            <!-- Título do sinal com animação -->
+            <div class="signal-title-container">
+                <h1 class="signal-title" id="titleBanner">VERMELHO</h1>
+                <div class="title-underline"></div>
+                <div class="context-inline" id="contextInline">
+                    <span class="context-icon-inline">💬</span>
+                    <span class="context-text-inline" id="meaningTextInline">Cor Vermelho</span>
+                </div>
+            </div>
+
+            <!-- Área do vídeo com frame decorativo -->
+            <div class="video-container">
+                <div class="video-frame">
+                    <video
+                        src="CORES/1_VERMELHO.mp4"
+                        alt="Avatar fazendo o sinal de Vermelho"
+                        class="signal-video"
+                        id="avatarVideo"
+                        autoplay
+                        muted
+                        loop>
+                    </video>
+                    <div class="video-overlay"></div>
+                </div>
+
+                <!-- Controles de vídeo flutuantes -->
+                <div class="video-controls-panel">
+                    <button class="control-btn play-pause-btn" id="playPauseButton" aria-label="Pausar vídeo" title="Pausar (Espaço)">
+                        <span>⏸</span>
+                    </button>
+                    <button class="control-btn repeat-btn" id="repeatButton" aria-label="Repetir vídeo" title="Repetir (R)">
+                        <span>↻</span>
+                    </button>
+                    <button class="control-btn speed-btn" id="speedButton" aria-label="Velocidade" title="Velocidade">
+                        <span>1x</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Seção de contexto com design moderno (mantida para referência) -->
+            <div class="context-section" style="display: none;">
+                <div class="context-header">
+                    <span class="context-icon">💡</span>
+                    <h3>Contexto de Uso</h3>
+                </div>
+                <p class="context-text" id="meaningText">Cor Vermelho</p>
+            </div>
+
+            <!-- Botões de navegação grandes e visíveis -->
+            <div class="action-buttons">
+                <button class="action-btn prev-btn" id="prevSignalButton" aria-label="Sinal anterior" title="Anterior (←)">
+                    <span class="btn-icon">←</span>
+                    <span class="btn-text">Anterior</span>
+                </button>
+                <button class="action-btn next-btn primary" id="nextSignalButton" aria-label="Próximo sinal" title="Próximo (→ ou Enter)">
+                    <span class="btn-text">Próximo</span>
+                    <span class="btn-icon">→</span>
+                    <span class="btn-shortcut">ENTER</span>
+                </button>
+            </div>
+        </div>
+
+        </div>
+
+        <!-- Stats Lateral Direito -->
+        <aside class="right-sidebar">
+            <div class="game-stats-vertical">
+                <div class="stat-item-vertical points-display">
+                    <span class="stat-icon">⭐</span>
+                    <div class="stat-content">
+                        <span class="stat-value" id="pointsDisplay">0</span>
+                        <span class="stat-label">Pontos</span>
+                    </div>
+                </div>
+                <div class="stat-item-vertical level-badge">
+                    <span class="stat-icon">🎯</span>
+                    <div class="stat-content">
+                        <span class="stat-value">Nível 10</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Indicadores de progresso visual (bolinhas) -->
+    <div class="progress-dots" id="progressDots"></div>
+
+    <!-- ============================================
+        DOCUMENTAÇÃO: Seção de Jogo
+        - Exibe vídeo e 4 alternativas
+        - Sistema de pontuação
+        - Progresso através dos 10 vídeos
+    ============================================ -->
+    <!-- Seletor de Nível -->
+    <div class="level-selector-modal" id="levelSelectorModal" style="display: none;">
+        <div class="level-selector-content">
+            <h2>🎮 Escolha o Nível do Jogo</h2>
+            <div class="level-options">
+                <button class="level-option-btn" data-level="1">
+                    <div class="level-icon">📝</div>
+                    <div class="level-title">Nível 1</div>
+                    <div class="level-description">Vídeo + 4 Alternativas</div>
+                </button>
+                <button class="level-option-btn" data-level="2">
+                    <div class="level-icon">🎬</div>
+                    <div class="level-title">Nível 2</div>
+                    <div class="level-description">2 Vídeos - Escolha o Correto</div>
+                </button>
+            </div>
+            <button class="close-level-selector-btn" id="closeLevelSelectorButton">×</button>
+        </div>
+    </div>
+
+    <div class="game-section" id="gameSection" style="display: none;">
+        <div class="game-section-header">
+            <h2>🎮 JOGO - Teste seus Conhecimentos <span id="currentLevelBadge">Nível 1</span></h2>
+            <button class="close-game-btn" id="closeGameButton" aria-label="Fechar jogo">×</button>
+        </div>
+
+        <div class="game-progress-info">
+            <div class="game-progress-bar">
+                <div class="game-progress-fill" id="gameProgressFill"></div>
+            </div>
+            <span class="game-progress-text" id="gameProgressText">Pergunta 1/10</span>
+            <span class="game-score-text" id="gameScoreText">Pontuação: 0</span>
+        </div>
+
+        <div class="game-card" id="gameCard">
+            <!-- Nível 1: 1 vídeo + 4 alternativas -->
+            <div class="game-level-1" id="gameLevel1">
+                <div class="game-video-container">
+                    <div class="game-video-frame">
+                        <video
+                            id="gameVideo"
+                            class="game-video"
+                            autoplay
+                            muted
+                            loop>
+                        </video>
+                        <div class="game-video-overlay"></div>
+                    </div>
+                </div>
+
+                <div class="game-question">
+                    <h3>Qual é o sinal exibido no vídeo?</h3>
+                </div>
+
+                <div class="game-options" id="gameOptions">
+                    <!-- As alternativas serão geradas dinamicamente -->
+                </div>
+            </div>
+
+            <!-- Nível 2: 2 vídeos + pergunta sobre qual vídeo representa o sinal -->
+            <div class="game-level-2" id="gameLevel2" style="display: none;">
+                <div class="game-question">
+                    <h3 id="level2Question">Qual vídeo representa o sinal <strong id="level2SignalName"></strong>?</h3>
+                </div>
+
+                <div class="game-videos-container" id="gameVideosContainer">
+                    <!-- Os 2 vídeos serão gerados dinamicamente -->
+                </div>
+            </div>
+
+            <div class="game-feedback" id="gameFeedback" style="display: none;">
+                <div class="feedback-content" id="feedbackContent"></div>
+            </div>
+
+            <div class="game-actions">
+                <button class="game-action-btn next-question-btn" id="nextQuestionButton" style="display: none;">
+                    <span>Próxima Pergunta →</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+        DOCUMENTAÇÃO: Modal de Conclusão Gamificado
+        - Animação de celebração
+        - Exibição de pontos ganhos
+        - Opções de ação claras
+    ============================================ -->
+    <div class="modal-overlay" id="completionModal">
+        <div class="modal-content">
+            <div class="celebration-animation">
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+                <div class="confetti"></div>
+            </div>
+            <div class="modal-header">
+                <h2>🎉 Parabéns!</h2>
+                <p class="completion-message">Você completou todos os <strong id="totalSignalsCompleted">10</strong> sinais!</p>
+            </div>
+            <div class="modal-stats">
+                <div class="modal-stat">
+                    <span class="modal-stat-value" id="finalPoints">0</span>
+                    <span class="modal-stat-label">Pontos Ganhos</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn restart-btn" id="restartButton">
+                    <span>🔄</span> Reiniciar
+                </button>
+                <button class="modal-btn random-btn" id="randomPracticeButton">
+                    <span>🎲</span> Prática Aleatória
+                </button>
+                <button class="modal-btn close-btn" id="closeModalButton">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+        DOCUMENTAÇÃO: Notificações Toast
+        - Feedback visual ao completar ações
+        - Animações suaves de entrada/saída
+    ============================================ -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ============================================
+        DOCUMENTAÇÃO: Dicas de Atalhos
+        - Visível mas discreto
+        - Informações úteis para o usuário
+    ============================================ -->
+    <div class="keyboard-hints">
+        <div class="hint-item"><kbd>←</kbd><kbd>→</kbd> Navegar</div>
+        <div class="hint-item"><kbd>Espaço</kbd> Repetir</div>
+        <div class="hint-item"><kbd>M</kbd> Menu</div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
