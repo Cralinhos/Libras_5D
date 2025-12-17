@@ -1027,6 +1027,10 @@ body {
     background: var(--color-text-lighter);
 }
 
+.next-module-btn {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+}
+
 .modal-btn:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-md);
@@ -2010,93 +2014,6 @@ video:focus {
     }
 }
 
-/* ============================================
-   DOCUMENTAÇÃO: ACCORDION MENU
-   - Menu expansível para navegação entre módulos
-   - Animações suaves
-   ============================================ */
-.modules-accordion {
-    margin: 10px 0;
-    border-bottom: 1px solid var(--color-background);
-}
-
-.accordion-btn {
-    width: 100%;
-    padding: 15px 20px;
-    background: transparent;
-    border: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: 600;
-    color: var(--color-primary-darker);
-    transition: var(--transition);
-}
-
-.accordion-btn:hover {
-    background: var(--color-background);
-}
-
-.accordion-icon {
-    transition: transform 0.3s ease;
-}
-
-.accordion-btn.active .accordion-icon {
-    transform: rotate(180deg);
-}
-
-.accordion-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-}
-
-.accordion-content.active {
-    max-height: 500px;
-}
-
-.modules-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.modules-list li {
-    padding: 12px 20px 12px 40px;
-    transition: var(--transition);
-}
-
-.modules-list li:hover {
-    background: var(--color-background);
-}
-
-.modules-list li.active {
-    background: var(--color-background);
-    border-left: 4px solid var(--color-primary);
-    font-weight: 600;
-}
-
-.modules-list li.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.modules-list a {
-    text-decoration: none;
-    color: var(--color-text);
-    display: block;
-}
-
-.modules-list li.active a {
-    color: var(--color-primary-darker);
-}
-
-.modules-list li.disabled a {
-    pointer-events: none;
-}
-
 .signals-header {
     padding: 15px 20px;
     margin: 10px 0 0 0;
@@ -2106,4 +2023,695 @@ video:focus {
     text-transform: uppercase;
     letter-spacing: 1px;
     border-top: 1px solid var(--color-background);
+}
+
+/* ============================================
+   NOVO MENU DE NAVEGAÇÃO COM ACCORDIONS ANINHADOS
+   - Estrutura hierárquica de módulos
+   - Cada módulo tem seu próprio accordion
+   - Design moderno e intuitivo
+   ============================================ */
+
+/* Item de módulo */
+.module-item {
+    margin: 8px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.module-item:hover:not(.disabled) {
+    background: var(--color-background);
+}
+
+/* Link de módulo simples (sem accordion) */
+.module-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 500;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.module-link:hover:not(.disabled) {
+    background: linear-gradient(90deg, rgba(74, 208, 160, 0.1) 0%, transparent 100%);
+    padding-left: 20px;
+}
+
+.module-link.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Botão accordion do módulo */
+.module-accordion-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: transparent;
+    border: none;
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 1em;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: left;
+}
+
+.module-accordion-btn:hover {
+    background: linear-gradient(90deg, rgba(74, 208, 160, 0.15) 0%, transparent 100%);
+    padding-left: 20px;
+}
+
+.module-accordion-btn.active {
+    background: linear-gradient(90deg, rgba(74, 208, 160, 0.2) 0%, transparent 100%);
+    color: var(--color-primary-darker);
+    border-left: 4px solid var(--color-primary);
+}
+
+/* Ícone e nome do módulo */
+.module-icon {
+    font-size: 1.4em;
+    flex-shrink: 0;
+    width: 30px;
+    text-align: center;
+}
+
+.module-name {
+    flex: 1;
+    font-size: 0.95em;
+}
+
+/* Seta do accordion */
+.accordion-arrow {
+    font-size: 0.8em;
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    color: var(--color-primary);
+}
+
+.module-accordion-btn.active .accordion-arrow {
+    transform: rotate(180deg);
+}
+
+/* Lista de sinais do módulo */
+.module-signals-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(135deg, rgba(74, 208, 160, 0.05) 0%, transparent 100%);
+}
+
+.module-signals-list.active {
+    max-height: 2000px;
+}
+
+/* Lista de sinais dentro do accordion */
+.module-signals-list .signals-list {
+    list-style: none;
+    padding: 8px 0 8px 20px;
+    margin: 0;
+}
+
+.module-signals-list .signals-list li {
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: var(--transition);
+    border-left: 3px solid transparent;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.module-signals-list .signals-list li:hover {
+    background: rgba(255, 255, 255, 0.7);
+    border-left-color: var(--color-primary);
+    padding-left: 20px;
+}
+
+.module-signals-list .signals-list li.active {
+    background: rgba(74, 208, 160, 0.15);
+    border-left-color: var(--color-primary-darker);
+    font-weight: 600;
+    color: var(--color-primary-darker);
+}
+
+/* Preview de módulo (para módulos não ativos) */
+.module-preview {
+    margin: 10px;
+}
+
+.preview-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--color-primary-darker);
+    font-weight: 500;
+    transition: var(--transition);
+    border: 2px solid var(--color-primary);
+}
+
+.preview-link:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+    transform: translateX(4px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Módulo ativo */
+.module-item.active-module {
+    background: linear-gradient(135deg, rgba(74, 208, 160, 0.1) 0%, rgba(102, 201, 178, 0.05) 100%);
+    border-radius: 12px;
+    margin: 12px 0;
+}
+
+/* Módulo desabilitado */
+.module-item.disabled {
+    opacity: 0.5;
+}
+
+.module-item.disabled .module-link {
+    cursor: not-allowed;
+}
+
+/* Checkmark para sinais completados */
+.signal-completed {
+    color: var(--color-success);
+    font-size: 1.2em;
+    margin-left: 8px;
+}
+
+/* Scroll suave na sidebar */
+.sidebar-content {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) var(--color-background);
+}
+
+.sidebar-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+    background: var(--color-background);
+    border-radius: 10px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 10px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-dark);
+}
+
+
+/* ============================================
+   MELHORIAS MODERNAS DE DESIGN
+   - Gradientes animados
+   - Glassmorphism
+   - Micro-interações
+   - Responsividade mobile aprimorada
+   ============================================ */
+
+/* Gradiente animado no fundo */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+body {
+    background: linear-gradient(-45deg, #e9f5f2, #d4e8e1, #c4d8d1, #b8e6d5);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+/* Glassmorphism para cards */
+.card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.module-label,
+.progress-bar-compact {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Efeito de brilho nos botões */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.next-btn.primary {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.next-btn.primary::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.3) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: rotate(30deg);
+    animation: shimmer 3s infinite;
+}
+
+/* Animação de entrada para o card */
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Efeito de pulso no badge */
+@keyframes badgePulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(74, 208, 160, 0.3);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 6px 25px rgba(74, 208, 160, 0.5);
+    }
+}
+
+.signal-badge {
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+/* Hover melhorado para controles de vídeo */
+.control-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.control-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.control-btn:hover::before {
+    width: 100%;
+    height: 100%;
+}
+
+/* Animação suave para progress dots */
+.progress-dot {
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.progress-dot:hover {
+    transform: scale(1.4);
+    cursor: pointer;
+}
+
+/* Sidebar com efeito de slide suave */
+.sidebar {
+    transition: left 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.sidebar-overlay {
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+/* Toast notifications melhoradas */
+.toast {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-left: 4px solid;
+    animation: toastSlideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes toastSlideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Melhorias para mobile */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+        zoom: 100%;
+    }
+
+    .game-wrapper {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .left-sidebar,
+    .right-sidebar {
+        position: fixed;
+        z-index: 999;
+    }
+
+    .left-sidebar {
+        top: 20px;
+        left: 20px;
+    }
+
+    .right-sidebar {
+        top: 20px;
+        right: 20px;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .menu-toggle {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3em;
+    }
+
+    .stat-item-vertical {
+        padding: 10px;
+        min-width: auto;
+    }
+
+    .stat-item-vertical .stat-icon {
+        font-size: 1.5em;
+    }
+
+    .stat-item-vertical .stat-value {
+        font-size: 1em;
+    }
+
+    .stat-item-vertical .stat-label {
+        display: none;
+    }
+
+    .card {
+        padding: 25px 20px;
+        border-radius: 20px;
+    }
+
+    .signal-title {
+        font-size: 2em;
+        letter-spacing: 2px;
+    }
+
+    .signal-badge {
+        width: 55px;
+        height: 55px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .badge-number {
+        font-size: 1.4em;
+    }
+
+    .video-frame {
+        min-height: 300px;
+    }
+
+    .signal-video {
+        min-height: 280px;
+        max-height: 400px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .action-btn {
+        padding: 15px 20px;
+        font-size: 1em;
+    }
+
+    .btn-shortcut {
+        display: none;
+    }
+
+    .progress-dots {
+        gap: 6px;
+        max-width: 100%;
+    }
+
+    .progress-dot {
+        width: 10px;
+        height: 10px;
+    }
+
+    .compact-progress {
+        margin-bottom: 15px;
+    }
+
+    .module-label {
+        font-size: 0.85em;
+        padding: 6px 12px;
+    }
+
+    .progress-bar-compact {
+        padding: 10px 15px;
+        gap: 8px;
+    }
+
+    .keyboard-hints {
+        display: none;
+    }
+
+    .sidebar {
+        width: 280px;
+        left: -280px;
+    }
+
+    .sidebar-header h2 {
+        font-size: 1.1em;
+    }
+
+    .context-inline {
+        flex-direction: column;
+        padding: 10px 15px;
+    }
+
+    .context-text-inline {
+        font-size: 0.85em;
+    }
+}
+
+@media (max-width: 480px) {
+    .signal-title {
+        font-size: 1.6em;
+        letter-spacing: 1px;
+    }
+
+    .card {
+        padding: 20px 15px;
+    }
+
+    .video-frame {
+        min-height: 250px;
+    }
+
+    .signal-video {
+        min-height: 230px;
+        max-height: 350px;
+    }
+
+    .sidebar {
+        width: 100%;
+        left: -100%;
+    }
+
+    .game-section-header h2 {
+        font-size: 1.1em;
+    }
+
+    .game-card {
+        padding: 20px 15px;
+    }
+
+    .level-selector-content {
+        padding: 25px 20px;
+        max-width: 90%;
+    }
+
+    .level-options {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+
+/* Animações de micro-interação */
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.menu-toggle:active {
+    animation: bounce 0.3s ease;
+}
+
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+/* Efeito de loading suave */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Scroll suave personalizado */
+.sidebar-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+    background: var(--color-background);
+    border-radius: 10px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 10px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-dark);
+}
+
+/* Efeito de foco melhorado */
+*:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 8px;
+}
+
+/* Transições suaves para todos os elementos interativos */
+button,
+a,
+input,
+select,
+textarea {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Efeito de hover para accordion */
+.accordion-btn {
+    position: relative;
+}
+
+.accordion-btn::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background: var(--color-background);
+    transition: width 0.3s ease;
+    z-index: -1;
+}
+
+.accordion-btn:hover::before {
+    width: 100%;
+}
+
+/* Animação de rotação suave para o ícone do accordion */
+.accordion-icon {
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Efeito de destaque ao passar sobre itens da lista de módulos */
+.modules-list li {
+    position: relative;
+    overflow: hidden;
+}
+
+.modules-list li::before {
+    content: '';
+    position: absolute;
+    left: -100%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(74, 208, 160, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.modules-list li:hover::before {
+    left: 100%;
 }

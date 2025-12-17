@@ -7,10 +7,12 @@
     <title>Aprenda Libras - Pessoas/Família</title>
     <link rel="icon" type="image/png" href="../LIBRAS5D(CUMPRIMENTOS)/IMAGENS/LOGO_LIBRAS5D.png" sizes="150px">
     <link rel="stylesheet" href="style.css">
+    <!-- GSAP para animações fluidas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 
 <body>
-    ... <!-- Conteúdo da página -->
+    <!-- Conteúdo da página -->
 
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
@@ -49,36 +51,103 @@
     ============================================ -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2>Módulo 2: Pessoas/Família</h2>
+            <h2>📚 Navegação</h2>
             <button class="sidebar-close" aria-label="Fechar menu">×</button>
         </div>
         <div class="sidebar-content">
-            <!-- Accordion de Módulos -->
-            <div class="modules-accordion">
-                <button class="accordion-btn">
-                    <span>📚 Módulos</span>
-                    <span class="accordion-icon">▼</span>
+            <!-- Menu Principal -->
+            <div class="module-item">
+                <a href="../index.html" class="module-link">
+                    <span class="module-icon">🏠</span>
+                    <span class="module-name">Menu Principal</span>
+                </a>
+            </div>
+
+            <!-- Módulo 1: Cumprimentos -->
+            <div class="module-item">
+                <button class="module-accordion-btn">
+                    <span class="module-icon">📚</span>
+                    <span class="module-name">Módulo 1: Cumprimentos</span>
+                    <span class="accordion-arrow">▼</span>
                 </button>
-                <div class="accordion-content">
-                    <ul class="modules-list">
-                        <li><a href="../index.html">🏠 Menu Principal</a></li>
-                        <li><a href="../LIBRAS5D(CUMPRIMENTOS)/index.html">📚 Módulo 1: Cumprimentos</a></li>
-                        <li class="active"><a href="index.html">👨‍👩‍👧‍👦 Módulo 2: Pessoas/Família</a></li>
-                        <li class="disabled">🔒 Módulo 3: Em breve</li>
-                        <li class="disabled">🔒 Módulo 4: Em breve</li>
-                        <li class="disabled">🔒 Módulo 5: Em breve</li>
-                        <li class="disabled">🔒 Módulo 6: Em breve</li>
-                        <li class="disabled">🔒 Módulo 7: Em breve</li>
-                        <li class="disabled">🔒 Módulo 8: Em breve</li>
-                        <li class="disabled">🔒 Módulo 9: Em breve</li>
-                        <li><a href="../5DLIBRAS(CORES)/index.html">🎨 Cores</a></li>
-                    </ul>
+                <div class="module-signals-list">
+                    <div class="module-preview">
+                        <a href="../LIBRAS5D(CUMPRIMENTOS)/index.html" class="preview-link">
+                            <span>📖 Acessar módulo (29 sinais)</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <!-- Lista de Sinais do Módulo Atual -->
-            <h3 class="signals-header">Sinais deste Módulo</h3>
-            <ul class="signals-list" id="signalsList" role="list"></ul>
+            <!-- Módulo 2: Pessoas/Família -->
+            <div class="module-item active-module">
+                <button class="module-accordion-btn active">
+                    <span class="module-icon">👨‍👩‍👧‍👦</span>
+                    <span class="module-name">Módulo 2: Pessoas/Família</span>
+                    <span class="accordion-arrow">▼</span>
+                </button>
+                <div class="module-signals-list active">
+                    <ul class="signals-list" id="signalsList" role="list"></ul>
+                </div>
+            </div>
+
+            <!-- Módulos 3-9 (Desabilitados) -->
+            <div class="module-item disabled">
+                <div class="module-link disabled">
+                    <span class="module-icon">🔒</span>
+                    <span class="module-name">Módulo 3: Em breve</span>
+                </div>
+            </div>
+
+            <div class="module-item disabled">
+                <div class="module-link disabled">
+                    <span class="module-icon">🔒</span>
+                    <span class="module-name">Módulo 4: Em breve</span>
+                </div>
+            </div>
+
+            <div class="module-item disabled">
+                <div class="module-link disabled">
+                    <span class="module-icon">🔒</span>
+                    <span class="module-name">Módulo 5: Em breve</span>
+                </div>
+            </div>
+
+            <div class="module-item disabled">
+                <div class="module-link disabled">
+                    <span class="module-icon">🔒</span>
+                    <span class="module-name">Módulo 6: Em breve</span>
+                </div>
+            </div>
+
+            <div class="module-item disabled">
+                <div class="module-link disabled">
+                    <span class="module-icon">🔒</span>
+                    <span class="module-name">Módulo 7: Em breve</span>
+                </div>
+            </div>
+
+            <div class="module-item disabled">
+                <div class="module-link disabled">
+                    <span class="module-icon">🔒</span>
+                    <span class="module-name">Módulo 8: Em breve</span>
+                </div>
+            </div>
+
+            <div class="module-item disabled">
+                <div class="module-link disabled">
+                    <span class="module-icon">🔒</span>
+                    <span class="module-name">Módulo 9: Em breve</span>
+                </div>
+            </div>
+
+            <!-- Cores -->
+            <div class="module-item">
+                <a href="../5DLIBRAS(CORES)/index.html" class="module-link">
+                    <span class="module-icon">🎨</span>
+                    <span class="module-name">Cores</span>
+                </a>
+            </div>
         </div>
         <div class="sidebar-footer">
             <button class="random-mode-button" id="randomModeButton">

@@ -154,51 +154,6 @@ let lastPointsAddition = {
 // Set para rastrear quais sinais já receberam pontos nesta sessão
 let pointsGivenForSignals = new Set();
 
-function addPoints(amount, signalIndex = null) {
-    // Usa o índice do sinal atual se não fornecido
-    const targetIndex = signalIndex !== null ? signalIndex : currentSignalIndex;
-
-    // PROTEÇÃO MÚLTIPLA:
-    // 1. Verifica se pontos já foram dados para este sinal específico
-    const pointsKey = `signal_${targetIndex}_${amount}`;
-    if (pointsGivenForSignals.has(pointsKey)) {
-        console.log('Pontos já foram adicionados para este sinal');
-        return;
-    }
-
-    // 2. Verifica timestamp (proteção contra chamadas muito rápidas)
-    const now = Date.now();
-    if (lastPointsAddition.signalIndex === targetIndex &&
-        lastPointsAddition.amount === amount &&
-        (now - lastPointsAddition.timestamp) < 2000) {
-        console.log('Pontos já foram adicionados recentemente');
-        return;
-    }
-
-    // Marca que pontos foram dados para este sinal
-    pointsGivenForSignals.add(pointsKey);
-
-    // Atualiza registro
-    lastPointsAddition.signalIndex = targetIndex;
-    lastPointsAddition.amount = amount;
-    lastPointsAddition.timestamp = now;
-
-    // Adiciona pontos
-    points += amount;
-
-    updatePointsDisplay();
-    showToast(`+${amount} pontos!`, 'success');
-
-    // Animação de conquista no display de pontos
-    const pointsDisplayElement = document.querySelector('.stat-item-vertical.points-display');
-    if (pointsDisplayElement) {
-        pointsDisplayElement.classList.add('achievement');
-        setTimeout(() => {
-            pointsDisplayElement.classList.remove('achievement');
-        }, 600);
-    }
-}
-
 function updatePointsDisplay() {
     pointsDisplay.textContent = points;
     // Animação de pulso ao atualizar
@@ -206,35 +161,6 @@ function updatePointsDisplay() {
     setTimeout(() => {
         pointsDisplay.parentElement.style.animation = 'pulse 0.5s ease';
     }, 10);
-}
-
-/* ============================================
-   DOCUMENTAÇÃO: SISTEMA DE NOTIFICAÇÕES TOAST
-   - Feedback visual para ações do usuário
-   - Animações suaves de entrada/saída
-   ============================================ */
-function showToast(message, type = 'info') {
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-
-    const icons = {
-        success: '✅',
-        info: 'ℹ️',
-        warning: '⚠️'
-    };
-
-    toast.innerHTML = `
-        <span class="toast-icon">${icons[type] || icons.info}</span>
-        <span class="toast-message">${message}</span>
-    `;
-
-    toastContainer.appendChild(toast);
-
-    // Remove após 3 segundos
-    setTimeout(() => {
-        toast.style.animation = 'toastSlideOut 0.3s ease-out';
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
 }
 
 // Adiciona animação de saída
@@ -301,7 +227,7 @@ function updateProgress() {
 
 /* ============================================
    DOCUMENTAÇÃO: CARREGAMENTO DE SINAL
-   - Carrega um sinal específico com animação
+   - Carrega um sinal específico com animação GSAP
    - Atualiza todos os elementos visuais
    ============================================ */
 function loadSignal(index, skipAnimation = false) {
@@ -311,23 +237,29 @@ function loadSignal(index, skipAnimation = false) {
         return;
     }
 
-    if (!skipAnimation) {
-        // Animação de transição
-        card.style.opacity = '0.5';
-        card.style.transform = 'translateY(20px) scale(0.98)';
-
-        setTimeout(() => {
-            updateSignalContent(index);
-            card.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0) scale(1)';
-
-            // Libera flag após a transição completar (400ms da animação + pequena margem)
-            // Reduzido para permitir navegação mais rápida, mas ainda previne spam
-            setTimeout(() => {
-                isNavigating = false;
-            }, 400);
-        }, 100);
+    if (!skipAnimation && typeof gsap !== 'undefined') {
+        // Animação de saída com GSAP
+        gsap.to(card, {
+            opacity: 0.5,
+            y: 20,
+            scale: 0.98,
+            duration: 0.2,
+            ease: "power2.in",
+            onComplete: () => {
+                updateSignalContent(index);
+                // Animação de entrada com GSAP
+                gsap.to(card, {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.4,
+                    ease: "power2.out",
+                    onComplete: () => {
+                        isNavigating = false;
+                    }
+                });
+            }
+        });
     } else {
         updateSignalContent(index);
         // Libera flag imediatamente se não houver animação
@@ -602,31 +534,11 @@ function updateSignalsList() {
     });
 }
 
-function openSidebar() {
-    sidebar.classList.add('open');
-    sidebarOverlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeSidebar() {
-    sidebar.classList.remove('open');
-    sidebarOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-}
-
 /* ============================================
    DOCUMENTAÇÃO: MODAL DE CONCLUSÃO
    - Exibe estatísticas finais
    - Opções de ação
    ============================================ */
-function showCompletionModal() {
-    totalSignalsCompleted.textContent = totalSignals;
-    finalPoints.textContent = points;
-    completionModal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    showToast('Parabéns! Você completou todos os sinais!', 'success');
-}
-
 function closeModal() {
     completionModal.classList.remove('active');
     document.body.style.overflow = '';
@@ -762,7 +674,7 @@ function startGameWithLevel(level) {
     gameAnswered = false;
 
     // Cria array com todos os sinais em ordem aleatória
-    gameQuestions = [...Array(signals.length).keys()];
+    gameQuestions = [Array(signals.length).keys()];
     shuffleArray(gameQuestions);
 
     // Esconde o seletor de nível e a seção principal, mostra o jogo
@@ -888,7 +800,7 @@ function generateGameOptions(correctIndex) {
     }
 
     // Cria array com todas as opções (correta + 3 incorretas)
-    const allOptions = [correctIndex, ...wrongOptions];
+    const allOptions = [correctIndex, wrongOptions];
 
     // Embaralha as opções
     shuffleArray(allOptions);
@@ -1148,18 +1060,199 @@ function closeGame() {
 }
 
 /* ============================================
-   DOCUMENTAÇÃO: ACCORDION MENU
-   - Controla abertura/fechamento do accordion
+   DOCUMENTAÇÃO: ACCORDION MENU ANINHADO
+   - Controla abertura/fechamento de múltiplos accordions
+   - Cada módulo tem seu próprio accordion
    ============================================ */
 function setupAccordion() {
-    const accordionBtn = document.querySelector('.accordion-btn');
-    const accordionContent = document.querySelector('.accordion-content');
+    // Seleciona todos os botões de accordion de módulos
+    const moduleAccordionBtns = document.querySelectorAll('.module-accordion-btn');
 
-    if (accordionBtn && accordionContent) {
-        accordionBtn.addEventListener('click', () => {
-            accordionBtn.classList.toggle('active');
-            accordionContent.classList.toggle('active');
+    moduleAccordionBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const isActive = btn.classList.contains('active');
+            const signalsList = btn.nextElementSibling;
+
+            // Toggle do estado ativo
+            btn.classList.toggle('active');
+            signalsList.classList.toggle('active');
+
+            // Log para debug
+            console.log(`Accordion ${isActive ? 'fechado' : 'aberto'}:`, btn.querySelector('.module-name').textContent);
         });
+    });
+
+    // Garante que o módulo ativo inicie aberto
+    const activeModuleBtn = document.querySelector('.module-accordion-btn.active');
+    if (activeModuleBtn) {
+        const signalsList = activeModuleBtn.nextElementSibling;
+        signalsList.classList.add('active');
+    }
+}
+
+/* ============================================
+   DOCUMENTAÇÃO: ANIMAÇÕES GSAP
+   - Animações fluidas e modernas
+   - Micro-interações aprimoradas
+   ============================================ */
+function initGSAPAnimations() {
+    if (typeof gsap === 'undefined') {
+        console.log('GSAP não carregado, usando CSS padrão');
+        return;
+    }
+
+    // Animações iniciais desabilitadas para garantir visibilidade
+    // Os elementos agora aparecem imediatamente sem animação de entrada
+    // Mantemos apenas as animações de transição entre sinais
+
+    console.log('GSAP carregado - animações de transição ativas');
+}
+
+// Animar abertura do sidebar
+function openSidebar() {
+    sidebar.classList.add('open');
+    sidebarOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Animações GSAP removidas para garantir visibilidade imediata dos elementos
+}
+
+// Animar fechamento do sidebar
+function closeSidebar() {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Animar modal de conclusão
+function showCompletionModal() {
+    totalSignalsCompleted.textContent = totalSignals;
+    finalPoints.textContent = points;
+    completionModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    showToast('Parabéns! Você completou todos os sinais!', 'success');
+
+    // Adiciona botão para próximo módulo (apenas no Módulo 1)
+    const modalFooter = document.querySelector('.modal-footer');
+    const nextModuleBtn = document.getElementById('nextModuleButton');
+
+    // Verifica se estamos no Módulo 1 (Cumprimentos tem 29 sinais)
+    if (totalSignals === 29 && !nextModuleBtn) {
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'modal-btn next-module-btn';
+        nextBtn.id = 'nextModuleButton';
+        nextBtn.innerHTML = '<span>➡️</span> Próximo Módulo';
+        nextBtn.onclick = () => {
+            window.location.href = '../LIBRAS5D(PESSOAS_FAMILIA)/index.html';
+        };
+
+        // Insere antes do botão "Fechar"
+        const closeBtn = document.getElementById('closeModalButton');
+        modalFooter.insertBefore(nextBtn, closeBtn);
+    }
+
+    // Animações GSAP removidas para garantir visibilidade imediata dos botões
+}
+
+// Animar toast com GSAP
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+
+    const icons = {
+        success: '✅',
+        info: 'ℹ️',
+        warning: '⚠️'
+    };
+
+    toast.innerHTML = `
+        <span class="toast-icon">${icons[type] || icons.info}</span>
+        <span class="toast-message">${message}</span>
+    `;
+
+    toastContainer.appendChild(toast);
+
+    if (typeof gsap !== 'undefined') {
+        gsap.from(toast, {
+            x: 400,
+            opacity: 0,
+            duration: 0.4,
+            ease: "back.out(1.7)"
+        });
+
+        gsap.to(toast, {
+            x: 400,
+            opacity: 0,
+            duration: 0.3,
+            delay: 3,
+            ease: "power2.in",
+            onComplete: () => toast.remove()
+        });
+    } else {
+        // Fallback sem GSAP
+        setTimeout(() => {
+            toast.style.animation = 'toastSlideOut 0.3s ease-out';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+}
+
+// Animar pontos com GSAP
+function addPoints(amount, signalIndex = null) {
+    // Usa o índice do sinal atual se não fornecido
+    const targetIndex = signalIndex !== null ? signalIndex : currentSignalIndex;
+
+    // PROTEÇÃO MÚLTIPLA:
+    // 1. Verifica se pontos já foram dados para este sinal específico
+    const pointsKey = `signal_${targetIndex}_${amount}`;
+    if (pointsGivenForSignals.has(pointsKey)) {
+        console.log('Pontos já foram adicionados para este sinal');
+        return;
+    }
+
+    // 2. Verifica timestamp (proteção contra chamadas muito rápidas)
+    const now = Date.now();
+    if (lastPointsAddition.signalIndex === targetIndex &&
+        lastPointsAddition.amount === amount &&
+        (now - lastPointsAddition.timestamp) < 2000) {
+        console.log('Pontos já foram adicionados recentemente');
+        return;
+    }
+
+    // Marca que pontos foram dados para este sinal
+    pointsGivenForSignals.add(pointsKey);
+
+    // Atualiza registro
+    lastPointsAddition.signalIndex = targetIndex;
+    lastPointsAddition.amount = amount;
+    lastPointsAddition.timestamp = now;
+
+    // Adiciona pontos
+    points += amount;
+
+    updatePointsDisplay();
+    showToast(`+${amount} pontos!`, 'success');
+
+    // Animação de conquista no display de pontos com GSAP
+    const pointsDisplayElement = document.querySelector('.stat-item-vertical.points-display');
+    if (pointsDisplayElement && typeof gsap !== 'undefined') {
+        gsap.to(pointsDisplayElement, {
+            scale: 1.2,
+            duration: 0.3,
+            ease: "back.out(1.7)",
+            onComplete: () => {
+                gsap.to(pointsDisplayElement, {
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            }
+        });
+    } else if (pointsDisplayElement) {
+        pointsDisplayElement.classList.add('achievement');
+        setTimeout(() => {
+            pointsDisplayElement.classList.remove('achievement');
+        }, 600);
     }
 }
 
@@ -1253,4 +1346,5 @@ document.addEventListener('DOMContentLoaded', () => {
     updateVideoControls();
     updatePointsDisplay();
     setupAccordion();
+    initGSAPAnimations();
 });
