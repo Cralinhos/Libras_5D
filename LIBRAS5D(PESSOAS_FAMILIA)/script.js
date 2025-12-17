@@ -1091,23 +1091,9 @@ function setupAccordion() {
 }
 
 /* ============================================
-   DOCUMENTAÇÃO: ANIMAÇÕES GSAP
-   - Animações fluidas e modernas
-   - Micro-interações aprimoradas
+   DOCUMENTAÇÃO: SIDEBAR
+   - Controles de abertura/fechamento
    ============================================ */
-function initGSAPAnimations() {
-    if (typeof gsap === 'undefined') {
-        console.log('GSAP não carregado, usando CSS padrão');
-        return;
-    }
-
-    // Animações iniciais desabilitadas para garantir visibilidade
-    // Os elementos agora aparecem imediatamente sem animação de entrada
-    // Mantemos apenas as animações de transição entre sinais
-
-    console.log('GSAP carregado - animações de transição ativas');
-}
-
 // Animar abertura do sidebar
 function openSidebar() {
     sidebar.classList.add('open');
@@ -1346,5 +1332,4 @@ document.addEventListener('DOMContentLoaded', () => {
     updateVideoControls();
     updatePointsDisplay();
     setupAccordion();
-    initGSAPAnimations();
 });
